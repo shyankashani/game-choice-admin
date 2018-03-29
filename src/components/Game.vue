@@ -1,35 +1,57 @@
 <template>
   <div>
-      <b-row>
-        <b-col class="border pt-3 pb-3 border-top-0 border-right-0">
-          <div class="pt-2">
-            {{ name }}
+      <b-row class="pb-4">
+
+        <b-col>
+          <div>
+            <b-form-input
+              v-model="message"
+              :placeholder="name"
+              size="sm"
+              disabled
+            >
+            </b-form-input>
           </div>
         </b-col>
-        <b-col class="border pt-3 pb-3 border-top-0 border-right-0">
-          <b-form-input type="text" v-bind:placeholder="location" class="w-50" />
+
+        <b-col>
+          <b-form-input
+            v-model="message"
+            placeholder="Location"
+            size="sm"
+          >
+          </b-form-input>
         </b-col>
-        <b-col class="border pt-3 pb-3 border-top-0 border-right-0">
-          <b-button-group>
-            <b-button v-bind:variant="colorVariants.green">G</b-button>
-            <b-button v-bind:variant="colorVariants.yellow">Y</b-button>
-            <b-button v-bind:variant="colorVariants.red">R</b-button>
-          </b-button-group>
+
+        <b-col>
+          <b-form-select
+            v-model="selected"
+            size="sm"
+          >
+            <option>Green</option>
+            <option>Yellow</option>
+            <option>Red</option>
+          </b-form-select>
         </b-col>
-        <b-col class="pt-3 pb-3 border-top-0 border">
-          <b-button-group>
-            <b-button variant="outline-secondary">G</b-button>
-            <b-button variant="outline-secondary">Y</b-button>
-            <b-button variant="outline-secondary">R</b-button>
-            <b-button variant="outline-secondary">G</b-button>
-            <b-button variant="outline-secondary">Y</b-button>
-            <b-button variant="outline-secondary">R</b-button>
-            <b-button variant="outline-secondary">G</b-button>
-            <b-button variant="outline-secondary">Y</b-button>
-            <b-button variant="outline-secondary">R</b-button>
-            <b-button variant="outline-secondary">R</b-button>
-          </b-button-group>
+
+        <b-col>
+          <b-form-select
+            v-model="selected"
+            size="sm"
+          >
+            <option>G</option>
+            <option>Y</option>
+            <option>R</option>
+            <option>G</option>
+            <option>Y</option>
+            <option>R</option>
+            <option>G</option>
+            <option>Y</option>
+            <option>R</option>
+            <option>R</option>
+          </b-form-select>
         </b-col>
+
       </b-row>
   </div>
 </template>

@@ -1,12 +1,13 @@
 <template>
-  <div id="app">
-    <b-navbar variant="light">
+  <div id="app" class="mx-5 px-5">
+    <b-navbar class="py-5">
       <b-nav-form>
-        <b-form-input type="text" placeholder="Search"></b-form-input>
+        <b-form-input
+          placeholder="Search"
+          size="sm"
+        >
+      </b-form-input>
       </b-nav-form>
-      <b-button v-on:click="pingBGG">
-        Ping BGG
-      </b-button>
     </b-navbar>
     <router-view/>
   </div>

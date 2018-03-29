@@ -3,8 +3,8 @@
     <b-container fluid>
       <game
         v-for="game in games"
-        v-bind:game="game"
-        v-bind:key="game.id"
+        :game="game"
+        :key="game.id"
       />
     </b-container>
   </div>
@@ -14,7 +14,7 @@
 import Game from './Game';
 
 export default {
-  name: 'HelloWorld',
+  name: 'Wrapper',
   components: {
     Game
   },
