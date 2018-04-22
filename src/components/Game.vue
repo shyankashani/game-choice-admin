@@ -5,7 +5,6 @@
         <b-col>
           <div>
             <b-form-input
-              v-model="message"
               :placeholder="name"
               size="sm"
               disabled
@@ -16,7 +15,6 @@
 
         <b-col>
           <b-form-input
-            v-model="message"
             placeholder="Location"
             size="sm"
           >
@@ -25,7 +23,6 @@
 
         <b-col>
           <b-form-select
-            v-model="selected"
             size="sm"
           >
             <option>Green</option>
@@ -36,7 +33,6 @@
 
         <b-col>
           <b-form-select
-            v-model="selected"
             size="sm"
           >
             <option>G</option>

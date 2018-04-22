@@ -5,8 +5,15 @@
         <b-form-input
           placeholder="Search"
           size="sm"
-        >
-      </b-form-input>
+          v-model="searchQuery"
+        ></b-form-input>
+        <b-button
+          type="submit"
+          variant="secondary"
+          size="sm"
+          class="ml-3"
+          v-on:click="searchGames"
+        >Submit</b-button>
       </b-nav-form>
     </b-navbar>
     <router-view/>
@@ -18,10 +25,19 @@ import axios from 'axios'
 
 export default {
   name: 'app',
+  data: function() {
+    return {
+      searchQuery: ''
+    }
+  },
   methods: {
     pingBGG: function (event) {
       axios.get('http://localhost:3000/bgg')
-      .then(result => console.log(result))
+      .then(result => console.log(result));
+    },
+    searchGames: function () {
+      axios.get(`http://localhost:3000/games?name=${this.searchQuery}`)
+      .then(result => console.log(result));
     }
   }
 }
