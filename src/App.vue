@@ -27,7 +27,8 @@ export default {
   name: 'app',
   data: function() {
     return {
-      searchQuery: ''
+      searchQuery: '',
+      searchGamesResults: []
     }
   },
   methods: {
@@ -37,7 +38,8 @@ export default {
     },
     searchGames: function () {
       axios.get(`http://localhost:3000/games?name=${this.searchQuery}`)
-      .then(result => console.log(result));
+      .then(result => this.searchGamesResults = result.data)
+      .then(result => console.log('this.searchGamesResults', this.searchGamesResults));
     }
   }
 }
