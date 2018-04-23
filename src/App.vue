@@ -16,15 +16,21 @@
         >Submit</b-button>
       </b-nav-form>
     </b-navbar>
-    <router-view/>
+    <wrapper
+      v-bind:searchGamesResults="searchGamesResults"
+    ></wrapper>
   </div>
 </template>
 
 <script>
 import axios from 'axios'
+import Wrapper from './components/Wrapper';
 
 export default {
   name: 'app',
+  components: {
+    Wrapper
+  },
   data: function() {
     return {
       searchQuery: '',
@@ -39,7 +45,6 @@ export default {
     searchGames: function () {
       axios.get(`http://localhost:3000/games?name=${this.searchQuery}`)
       .then(result => this.searchGamesResults = result.data)
-      .then(result => console.log('this.searchGamesResults', this.searchGamesResults));
     }
   }
 }

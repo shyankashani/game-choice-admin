@@ -2,9 +2,9 @@
   <div id="hello">
     <b-container fluid>
       <game
-        v-for="game in games"
-        :game="game"
-        :key="game.id"
+        v-for="game in searchGamesResults"
+        v-bind:game="game"
+        v-bind:key="game.id"
       />
     </b-container>
   </div>
@@ -14,16 +14,14 @@
 import Game from './Game';
 
 export default {
-  name: 'Wrapper',
+  name: 'HelloWorld',
   components: {
     Game
   },
+  props: ['searchGamesResults'],
   data: function () {
     return {
-      games: [
-        { id: 0, name: 'BANG!', location: 'A1', color: 'green', sticker: 'choice' },
-        { id: 1, name: 'Checkers', location: null, color: null, sticker: null },
-      ]
+      games: this.searchGamesResults
     }
   }
 }
