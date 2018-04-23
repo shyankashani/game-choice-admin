@@ -1,15 +1,12 @@
 <template>
   <div>
-      <b-row class="pb-4">
+      <b-row class="pt-4 pb-4 border border-bottom-0 border-left-0 border-right-0">
 
         <b-col>
           <div>
-            <b-form-input
-              :placeholder="name"
-              size="sm"
-              disabled
-            >
-            </b-form-input>
+            <p>
+              {{ name }}
+            </p>
           </div>
         </b-col>
 
@@ -56,26 +53,9 @@
   export default {
     name: 'Game',
     props: ['game'],
-    data: function() {
-
-      let name = this.game.name;
-      let location = this.game.location || 'Enter location';
-      let color = this.game.color;
-
-      let colorVariants = {
-        green: 'outline-success',
-        yellow: 'outline-warning',
-        red: 'outline-danger'
-      };
-
-      if (color === 'green') { colorVariants.green = 'success' }
-      if (color === 'yellow') { colorVariants.yellow = 'warning' }
-      if (color === 'red') { colorVariants.red = 'danger' }
-
-      return {
-        name: name,
-        location: location,
-        colorVariants: colorVariants,
+    computed: {
+      name: function() {
+        return this.game.name;
       }
     }
   }

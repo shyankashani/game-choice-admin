@@ -17,7 +17,7 @@
       </b-nav-form>
     </b-navbar>
     <wrapper
-      v-bind:searchGamesResults="searchGamesResults"
+      v-bind:searchResults="searchResults"
     ></wrapper>
   </div>
 </template>
@@ -34,17 +34,13 @@ export default {
   data: function() {
     return {
       searchQuery: '',
-      searchGamesResults: []
+      searchResults: []
     }
   },
   methods: {
-    pingBGG: function (event) {
-      axios.get('http://localhost:3000/bgg')
-      .then(result => console.log(result));
-    },
     searchGames: function () {
       axios.get(`http://localhost:3000/games?name=${this.searchQuery}`)
-      .then(result => this.searchGamesResults = result.data)
+      .then(result => this.searchResults = result.data)
     }
   }
 }
@@ -56,5 +52,8 @@ export default {
   font-family: 'Roboto Mono', monospace;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+#app * {
+  font-size: 12px;
 }
 </style>
