@@ -6,18 +6,20 @@
           placeholder="Search"
           size="sm"
           v-model="searchQuery"
+          v-on:change="searchGames"
         ></b-form-input>
         <b-button
           type="submit"
           variant="secondary"
           size="sm"
           class="ml-3"
-          v-on:click="searchGames"
         >Submit</b-button>
       </b-nav-form>
     </b-navbar>
     <wrapper
       v-bind:searchResults="searchResults"
+      v-bind:colors="colors"
+      v-bind:categories="categories"
     ></wrapper>
   </div>
 </template>
@@ -31,16 +33,35 @@ export default {
   components: {
     Wrapper
   },
-  data: function() {
+  data: function () {
     return {
       searchQuery: '',
-      searchResults: []
+      searchResults: [],
+      colors: [],
+      categories: []
     }
+  },
+  created: function () {
+    this.getColors();
+    this.getCategories();
   },
   methods: {
     searchGames: function () {
       axios.get(`http://localhost:3000/games?name=${this.searchQuery}`)
-      .then(result => this.searchResults = result.data)
+      .then(result => this.searchResults = result.data);
+    },
+    getColors: function () {
+      axios.get(`http://localhost:3000/colors`)
+      .then(result => this.colors = result.data);
+    },
+    getCategories: function () {
+      axios.get(`http://localhost:3000/categories`)
+      .then(result => this.categories = result.data);
+    }
+  },
+  watch: {
+    searchQuery: function () {
+      this.searchGames();
     }
   }
 }
