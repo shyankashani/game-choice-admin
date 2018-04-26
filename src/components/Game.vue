@@ -22,10 +22,16 @@
           <b-form-select
             size="sm"
             v-model="selectedColorId"
+            v-bind:style="{
+              border: '1px solid ' + selectedColorHex,
+              color: selectedColorHex
+            }"
           >
-            <option v-for="color in colors" :value="color.colorId">
-              {{ color.name }}
-            </option>
+            <option
+              v-for="color in colors"
+              :value="color.colorId"
+              v-bind:style="{ color: color.hex }"
+            > {{ color.name }} </option>
           </b-form-select>
         </b-col>
 
@@ -45,7 +51,7 @@
             type="submit"
             variant="secondary"
             size="sm"
-            v-on:click="saveInventory"
+            v-on:click="updateInventory"
           >Save</b-button>
         </b-col>
 
@@ -55,6 +61,7 @@
 
 <script>
   import axios from 'axios';
+  import _ from 'lodash';
 
   export default {
     name: 'Game',
@@ -66,6 +73,13 @@
         selectedLocation: null,
         selectedColorId: null,
         selectedCategoryId: null
+      }
+    },
+    computed: {
+      selectedColorHex: function() {
+        return this.selectedColorId
+          ? _.find(this.colors, { colorId: this.selectedColorId}).hex
+          : `#111111`;
       }
     },
     created: function () {
@@ -82,7 +96,7 @@
           this.selectedCategoryId = result.data.categoryId;
         });
       },
-      saveInventory: function () {
+      updateInventory: function () {
         axios.post(`http://localhost:3000/inventory?${this.generateInventoryQuery()}`)
         .then(result => console.log(result))
       },
