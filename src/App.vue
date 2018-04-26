@@ -6,7 +6,7 @@
           placeholder="Search"
           size="sm"
           v-model="searchQuery"
-          v-on:change="searchGames"
+          v-on:change="getGames"
         ></b-form-input>
         <b-button
           type="submit"
@@ -46,7 +46,7 @@ export default {
     this.getCategories();
   },
   methods: {
-    searchGames: function () {
+    getGames: function () {
       axios.get(`http://localhost:3000/games?name=${this.searchQuery}`)
       .then(result => this.searchResults = result.data);
     },
@@ -61,7 +61,7 @@ export default {
   },
   watch: {
     searchQuery: function () {
-      this.searchGames();
+      this.getGames();
     }
   }
 }

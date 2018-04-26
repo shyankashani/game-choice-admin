@@ -5,7 +5,7 @@
         <b-col>
           <div>
             <p>
-              {{ gameName }}
+              {{ game.name }}
             </p>
           </div>
         </b-col>
@@ -54,44 +54,46 @@
 </template>
 
 <script>
+  import axios from 'axios';
+
   export default {
     name: 'Game',
     props: ['game', 'colors', 'categories'],
     data: function () {
       return {
-        selectedLocation: '',
+        gameId: null,
+        inventoryId: null,
+        selectedLocation: null,
         selectedColorId: null,
         selectedCategoryId: null
       }
     },
-    computed: {
-      gameName: function () {
-        return this.game.name;
-      },
-      colorNames: function () {
-        return this.colors.map(color => {
-          if (color.colorId === 1) {
-            return 'Green';
-          }
-          if (color.colorId === 2) {
-            return 'Yellow';
-          }
-          if (color.colorId === 3) {
-            return 'Red';
-          }
-        })
-      },
-      categoryNames: function () {
-        return this.categories.map(category => {
-          return category.name
-        });
-      }
+    created: function () {
+      this.getInventory();
     },
     methods: {
+      getInventory: function () {
+        axios.get(`http://localhost:3000/inventory?gameId=${this.game.gameId}`)
+        .then(result => {
+          this.gameId = result.data.gameId;
+          this.inventoryId = result.data.inventoryId;
+          this.selectedLocation = result.data.location;
+          this.selectedColorId = result.data.colorId;
+          this.selectedCategoryId = result.data.categoryId;
+        });
+      },
       saveInventory: function () {
-        console.log('this.selectedLocation', this.selectedLocation);
-        console.log('this.selectedColorId', this.selectedColorId);
-        console.log('this.selectedCategoryId', this.selectedCategoryId);
+        axios.post(`http://localhost:3000/inventory?${this.generateInventoryQuery()}`)
+        .then(result => console.log(result))
+      },
+      generateInventoryQuery: function() {
+        return [
+          `inventoryId=${this.inventoryId}`,
+          `gameId=${this.gameId}`,
+          `location=${this.selectedLocation}`,
+          `colorId=${this.selectedColorId}`,
+          `categoryId=${this.selectedCategoryId}`
+        ].join(`&`)
       }
     }
   }
