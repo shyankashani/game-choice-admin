@@ -2,26 +2,24 @@
   <div>
       <b-row class="pt-4 pb-4 border border-bottom-0 border-left-0 border-right-0">
 
-        <b-col>
-          <div>
-            <p>
-              {{ game.name }}
-            </p>
-          </div>
+        <b-col align-self="center">
+          {{ game.name }}
         </b-col>
 
-        <b-col>
+        <b-col align-self="center">
           <b-form-input
             placeholder="Location"
             size="sm"
             v-model="selectedLocation"
+            v-on:change="updateInventory"
           ></b-form-input>
         </b-col>
 
-        <b-col>
+        <b-col align-self="center">
           <b-form-select
             size="sm"
             v-model="selectedColorId"
+            v-on:change="updateInventory"
             v-bind:style="{
               border: '1px solid ' + selectedColorHex,
               color: selectedColorHex
@@ -35,10 +33,11 @@
           </b-form-select>
         </b-col>
 
-        <b-col>
+        <b-col align-self="center">
           <b-form-select
             size="sm"
             v-model="selectedCategoryId"
+            v-on:change="updateInventory"
           >
             <option v-for="category in categories" :value="category.categoryId">
               {{ category.name }}
@@ -46,14 +45,11 @@
           </b-form-select>
         </b-col>
 
-        <b-col>
-          <b-button
-            type="submit"
-            variant="secondary"
-            size="sm"
-            v-on:click="updateInventory"
-          >Save</b-button>
-        </b-col>
+        <b-col
+          align-self="center"
+          v-html="status.symbol"
+          v-bind:style="{ color: status.color }"
+        ></b-col>
 
       </b-row>
   </div>
@@ -72,7 +68,9 @@
         inventoryId: null,
         selectedLocation: null,
         selectedColorId: null,
-        selectedCategoryId: null
+        selectedCategoryId: null,
+        isUpdatingInventory: false,
+        isUpdateSuccessful: true
       }
     },
     computed: {
@@ -80,6 +78,13 @@
         return this.selectedColorId
           ? _.find(this.colors, { colorId: this.selectedColorId}).hex
           : `#111111`;
+      },
+      status: function() {
+        return this.isUpdatingInventory
+        ? { symbol: '&#9678;', color: '#f0ad4e' }
+        : this.isUpdateSuccessful
+        ? { symbol: '&#9673;', color: '#5cb85c' }
+        : { symcol: '&#10060;', color: '#d9534f' }
       }
     },
     created: function () {
@@ -97,8 +102,12 @@
         });
       },
       updateInventory: function () {
+        this.isUpdatingInventory = true;
         axios.post(`http://localhost:3000/inventory?${this.generateInventoryQuery()}`)
-        .then(result => console.log(result))
+        .then(result => {
+          this.isUpdatingInventory = false;
+          this.isUpdateSuccessful = result.status === 200;
+        })
       },
       generateInventoryQuery: function() {
         return [
