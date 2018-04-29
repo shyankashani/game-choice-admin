@@ -90,7 +90,7 @@
     },
     methods: {
       getInventory: function () {
-        axios.get(`http://localhost:3000/inventory?gameId=${this.game.gameId}`)
+        axios.get(`https://gamechoice-api.herokuapp.com/inventory?gameId=${this.game.gameId}`)
         .then(result => {
           this.gameId = result.data.gameId;
           this.inventoryId = result.data.inventoryId;
@@ -101,7 +101,7 @@
       },
       updateInventory: function () {
         this.isUpdatingInventory = true;
-        axios.post(`http://localhost:3000/inventory?${this.generateInventoryQuery()}`)
+        axios.post(`https://gamechoice-api.herokuapp.com/inventory?${this.generateInventoryQuery()}`)
         .then(result => {
           this.isUpdatingInventory = false;
           this.isUpdateSuccessful = result.status === 200;
