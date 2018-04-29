@@ -68,7 +68,7 @@ export default {
 </script>
 
 <style>
-@import url('https://fonts.googleapis.com/css?family=Roboto+Mono:400,500,700');
+/* @import url('https://fonts.googleapis.com/css?family=Roboto+Mono:400,500,700'); */
 #app {
   font-family: 'Roboto Mono', monospace;
   -webkit-font-smoothing: antialiased;
