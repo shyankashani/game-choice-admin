@@ -47,15 +47,15 @@ export default {
   },
   methods: {
     getGames: function () {
-      axios.get(`${process.env.API_URL || 'http://localhost:3000'}/games?name=${this.searchQuery}`)
+      axios.get(`https://gamechoice-api.herokuapp.com/games?name=${this.searchQuery}`)
       .then(result => this.searchResults = result.data);
     },
     getColors: function () {
-      axios.get(`${process.env.API_URL || 'http://localhost:3000'}/colors`)
+      axios.get(`https://gamechoice-api.herokuapp.com/colors`)
       .then(result => this.colors = result.data);
     },
     getCategories: function () {
-      axios.get(`${process.env.API_URL || 'http://localhost:3000'}/categories`)
+      axios.get(`https://gamechoice-api.herokuapp.com/categories`)
       .then(result => this.categories = result.data);
     }
   },
