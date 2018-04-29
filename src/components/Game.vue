@@ -12,7 +12,6 @@
             size="sm"
             v-model="selectedLocation"
             v-bind:style="{ 'text-transform': 'uppercase' }"
-            v-on:change="updateInventory"
           ></b-form-input>
         </b-col>
 
@@ -20,7 +19,6 @@
           <b-form-select
             size="sm"
             v-model="selectedColorId"
-            v-on:change="updateInventory"
             v-bind:style="{
               border: '1px solid ' + selectedColorHex,
               color: selectedColorHex
@@ -37,11 +35,19 @@
           <b-form-select
             size="sm"
             v-model="selectedCategoryId"
-            v-on:change="updateInventory"
           ><option v-for="category in categories" :value="category.categoryId">
               {{ category.name }}
             </option>
           </b-form-select>
+        </b-col>
+
+        <b-col align-self="center">
+          <b-button
+            type="submit"
+            variant="secondary"
+            size="sm"
+            v-on:click="updateInventory"
+          > Save </b-button>
         </b-col>
 
         <b-col align-self="center"
@@ -90,7 +96,7 @@
     },
     methods: {
       getInventory: function () {
-        axios.get(`https://gamechoice-api.herokuapp.com/inventory?gameId=${this.game.gameId}`)
+        axios.get(`${process.env.API_URL || 'http://localhost:3000'}/inventory?gameId=${this.game.gameId}`)
         .then(result => {
           this.gameId = result.data.gameId;
           this.inventoryId = result.data.inventoryId;
@@ -101,7 +107,7 @@
       },
       updateInventory: function () {
         this.isUpdatingInventory = true;
-        axios.post(`https://gamechoice-api.herokuapp.com/inventory?${this.generateInventoryQuery()}`)
+        axios.post(`${process.env.API_URL || 'http://localhost:3000'}/inventory?${this.generateInventoryQuery()}`)
         .then(result => {
           this.isUpdatingInventory = false;
           this.isUpdateSuccessful = result.status === 200;
