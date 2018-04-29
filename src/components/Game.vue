@@ -11,6 +11,7 @@
             placeholder="Location"
             size="sm"
             v-model="selectedLocation"
+            v-bind:style="{ 'text-transform': 'uppercase' }"
             v-on:change="updateInventory"
           ></b-form-input>
         </b-col>
@@ -24,8 +25,7 @@
               border: '1px solid ' + selectedColorHex,
               color: selectedColorHex
             }"
-          >
-            <option
+          ><option
               v-for="color in colors"
               :value="color.colorId"
               v-bind:style="{ color: color.hex }"
@@ -38,15 +38,13 @@
             size="sm"
             v-model="selectedCategoryId"
             v-on:change="updateInventory"
-          >
-            <option v-for="category in categories" :value="category.categoryId">
+          ><option v-for="category in categories" :value="category.categoryId">
               {{ category.name }}
             </option>
           </b-form-select>
         </b-col>
 
-        <b-col
-          align-self="center"
+        <b-col align-self="center"
           v-html="status.symbol"
           v-bind:style="{ color: status.color }"
         ></b-col>
