@@ -27,6 +27,7 @@
 <script>
 import axios from 'axios'
 import Wrapper from './components/Wrapper';
+import { API_HOST } from './config.js';
 
 export default {
   name: 'app',
@@ -47,15 +48,15 @@ export default {
   },
   methods: {
     getGames: function () {
-      axios.get(`https://gamechoice-api.herokuapp.com/games?name=${this.searchQuery}`)
+      axios.get(`${API_HOST}/games?name=${this.searchQuery}`)
       .then(result => this.searchResults = result.data);
     },
     getColors: function () {
-      axios.get(`https://gamechoice-api.herokuapp.com/colors`)
+      axios.get(`${API_HOST}/colors`)
       .then(result => this.colors = result.data);
     },
     getCategories: function () {
-      axios.get(`https://gamechoice-api.herokuapp.com/categories`)
+      axios.get(`${API_HOST}/categories`)
       .then(result => this.categories = result.data);
     }
   },
