@@ -17,7 +17,7 @@
       </b-nav-form>
     </b-navbar>
     <wrapper
-      v-bind:searchResults="searchResults"
+      v-bind:games="games"
       v-bind:colors="colors"
       v-bind:categories="categories"
     ></wrapper>
@@ -37,7 +37,7 @@ export default {
   data: function () {
     return {
       searchQuery: '',
-      searchResults: [],
+      games: [],
       colors: [],
       categories: []
     }
@@ -49,7 +49,10 @@ export default {
   methods: {
     getGames: function () {
       axios.get(`${API_HOST}/games?name=${this.searchQuery}`)
-      .then(result => this.searchResults = result.data);
+      .then(result => {
+        console.log('result.data', result.data);
+        this.games = result.data;
+      });
     },
     getColors: function () {
       axios.get(`${API_HOST}/colors`)

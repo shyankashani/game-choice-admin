@@ -17,12 +17,7 @@ import Game from './Game';
 
 export default {
   name: 'wrapper',
-  props: ['searchResults', 'colors', 'categories'],
-  computed: {
-    games: function() {
-      return this.searchResults;
-    }
-  },
+  props: ['games', 'colors', 'categories'],
   components: {
     Game
   }

@@ -93,11 +93,8 @@
     },
     methods: {
       getInventory: function () {
-        axios.get(`${API_HOST}/inventory?gameId=${this.game.gameId}`)
-        .then(result => {
-          console.log('result.data[0]', result.data[0]);
-          this.inventory = result.data[0];
-        });
+        axios.get(`${API_HOST}/inventory?gameId=${this.game.id}`)
+        .then(result => this.inventory = result.data[0] );
       },
       updateInventory: function () {
         this.isUpdatingInventory = true;
@@ -109,11 +106,11 @@
       },
       generateInventoryQuery: function() {
         return [
-          `inventoryId=${this.inventoryId}`,
-          `gameId=${this.gameId}`,
-          `location=${this.selectedLocation}`,
-          `colorId=${this.selectedColorId}`,
-          `categoryId=${this.selectedCategoryId}`
+          `inventoryId=${this.inventory.id}`,
+          `gameId=${this.inventory.game_id}`,
+          `location=${this.inventory.location}`,
+          `colorId=${this.inventory.color_id}`,
+          `categoryId=${this.inventory.category_id}`
         ].join(`&`)
       }
     }
