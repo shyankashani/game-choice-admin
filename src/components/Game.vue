@@ -42,6 +42,15 @@
         </b-col>
 
         <b-col align-self="center">
+          <b-form-textarea
+            v-model="inventory.notes"
+            placeholder="Notes"
+            :rows="3"
+            :max-rows="6"
+          ></b-form-textarea>
+        </b-col>
+
+        <b-col align-self="center">
           <b-button
             type="submit"
             variant="secondary"
@@ -110,7 +119,8 @@
           `gameId=${this.inventory.game_id}`,
           `location=${this.inventory.location}`,
           `colorId=${this.inventory.color_id}`,
-          `categoryId=${this.inventory.category_id}`
+          `categoryId=${this.inventory.category_id}`,
+          `notes=${this.inventory.notes}`
         ].join(`&`)
       }
     }
