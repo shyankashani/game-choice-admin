@@ -1,3 +1,3 @@
-export const API_HOST = 'http://localhost:3000'
-
-// 'https://gamechoice-api.herokuapp.com'
+export const API_HOST = process.env.NODE_ENV === 'production'
+  ? 'https://gamechoice-api.herokuapp.com'
+  : 'http://localhost:3000';
