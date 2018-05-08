@@ -5,7 +5,7 @@
         <b-form-input
           placeholder="Search"
           size="sm"
-          v-model="searchQuery"
+          v-model="query"
           v-on:change="getGames"
         ></b-form-input>
         <b-button
@@ -17,7 +17,7 @@
       </b-nav-form>
     </b-navbar>
     <wrapper
-      v-bind:searchResults="searchResults"
+      v-bind:games="games"
       v-bind:colors="colors"
       v-bind:categories="categories"
     ></wrapper>
@@ -27,6 +27,7 @@
 <script>
 import axios from 'axios'
 import Wrapper from './components/Wrapper';
+import { API_HOST } from './config.js';
 
 export default {
   name: 'app',
@@ -35,8 +36,8 @@ export default {
   },
   data: function () {
     return {
-      searchQuery: '',
-      searchResults: [],
+      query: '',
+      games: [],
       colors: [],
       categories: []
     }
@@ -47,20 +48,23 @@ export default {
   },
   methods: {
     getGames: function () {
-      axios.get(`https://gamechoice-api.herokuapp.com/games?name=${this.searchQuery}`)
-      .then(result => this.searchResults = result.data);
+      axios.get(`${API_HOST}/games?name=${this.query}`)
+      .then(result => {
+        console.log('result.data', result.data);
+        this.games = result.data;
+      });
     },
     getColors: function () {
-      axios.get(`https://gamechoice-api.herokuapp.com/colors`)
+      axios.get(`${API_HOST}/colors`)
       .then(result => this.colors = result.data);
     },
     getCategories: function () {
-      axios.get(`https://gamechoice-api.herokuapp.com/categories`)
+      axios.get(`${API_HOST}/categories`)
       .then(result => this.categories = result.data);
     }
   },
   watch: {
-    searchQuery: function () {
+    query: function () {
       this.getGames();
     }
   }

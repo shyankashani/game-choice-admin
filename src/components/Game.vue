@@ -10,7 +10,7 @@
           <b-form-input
             placeholder="Location"
             size="sm"
-            v-model="selectedLocation"
+            v-model="inventory.location"
             v-bind:style="{ 'text-transform': 'uppercase' }"
           ></b-form-input>
         </b-col>
@@ -18,14 +18,14 @@
         <b-col align-self="center">
           <b-form-select
             size="sm"
-            v-model="selectedColorId"
+            v-model="inventory.color_id"
             v-bind:style="{
               border: '1px solid ' + selectedColorHex,
               color: selectedColorHex
             }"
           ><option
               v-for="color in colors"
-              :value="color.colorId"
+              :value="color.id"
               v-bind:style="{ color: color.hex }"
             > {{ color.name }} </option>
           </b-form-select>
@@ -34,11 +34,20 @@
         <b-col align-self="center">
           <b-form-select
             size="sm"
-            v-model="selectedCategoryId"
-          ><option v-for="category in categories" :value="category.categoryId">
+            v-model="inventory.category_id"
+          ><option v-for="category in categories" :value="category.id">
               {{ category.name }}
             </option>
           </b-form-select>
+        </b-col>
+
+        <b-col align-self="center">
+          <b-form-textarea
+            v-model="inventory.notes"
+            placeholder="Notes"
+            :rows="3"
+            :max-rows="6"
+          ></b-form-textarea>
         </b-col>
 
         <b-col align-self="center">
@@ -62,25 +71,22 @@
 <script>
   import axios from 'axios';
   import _ from 'lodash';
+  import { API_HOST } from '../config';
 
   export default {
     name: 'Game',
     props: ['game', 'colors', 'categories'],
     data: function () {
       return {
-        gameId: null,
-        inventoryId: null,
-        selectedLocation: null,
-        selectedColorId: null,
-        selectedCategoryId: null,
         isUpdatingInventory: false,
-        isUpdateSuccessful: true
+        isUpdateSuccessful: true,
+        inventory: {}
       }
     },
     computed: {
       selectedColorHex: function() {
-        return this.selectedColorId
-          ? _.find(this.colors, { colorId: this.selectedColorId}).hex
+        return this.inventory.color_id
+          ? _.find(this.colors, { id: this.inventory.color_id}).hex
           : `#111111`;
       },
       status: function() {
@@ -96,18 +102,12 @@
     },
     methods: {
       getInventory: function () {
-        axios.get(`https://gamechoice-api.herokuapp.com/inventory?gameId=${this.game.gameId}`)
-        .then(result => {
-          this.gameId = result.data.gameId;
-          this.inventoryId = result.data.inventoryId;
-          this.selectedLocation = result.data.location;
-          this.selectedColorId = result.data.colorId;
-          this.selectedCategoryId = result.data.categoryId;
-        });
+        axios.get(`${API_HOST}/inventory?gameId=${this.game.id}`)
+        .then(result => this.inventory = result.data[0] );
       },
       updateInventory: function () {
         this.isUpdatingInventory = true;
-        axios.post(`https://gamechoice-api.herokuapp.com/inventory?${this.generateInventoryQuery()}`)
+        axios.post(`${API_HOST}/inventory?${this.generateInventoryQuery()}`)
         .then(result => {
           this.isUpdatingInventory = false;
           this.isUpdateSuccessful = result.status === 200;
@@ -115,11 +115,12 @@
       },
       generateInventoryQuery: function() {
         return [
-          `inventoryId=${this.inventoryId}`,
-          `gameId=${this.gameId}`,
-          `location=${this.selectedLocation}`,
-          `colorId=${this.selectedColorId}`,
-          `categoryId=${this.selectedCategoryId}`
+          `inventoryId=${this.inventory.id}`,
+          `gameId=${this.inventory.game_id}`,
+          `location=${this.inventory.location}`,
+          `colorId=${this.inventory.color_id}`,
+          `categoryId=${this.inventory.category_id}`,
+          `notes=${this.inventory.notes}`
         ].join(`&`)
       }
     }
