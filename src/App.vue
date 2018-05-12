@@ -2,42 +2,37 @@
   <div id="app" class="mx-5 px-5">
     <b-navbar class="py-5">
       <b-nav-form>
-        <b-form-input
-          placeholder="Search"
-          size="sm"
+        <input type="text"
+          class="form-control form-control-sm"
+          placeholder="Search for games"
           v-model="query"
-          v-on:change="getGames"
-        ></b-form-input>
-        <b-button
-          type="submit"
-          variant="secondary"
-          size="sm"
-          class="ml-3"
-        >Submit</b-button>
+          v-on:change="getInventory"
+        />
       </b-nav-form>
     </b-navbar>
-    <wrapper
-      v-bind:games="games"
+    <container
+      v-bind:inventory="inventory"
       v-bind:colors="colors"
       v-bind:categories="categories"
-    ></wrapper>
+    />
   </div>
 </template>
 
 <script>
 import axios from 'axios'
-import Wrapper from './components/Wrapper';
+import _ from 'lodash';
+import Container from './components/Container';
 import { API_HOST } from './config.js';
 
 export default {
   name: 'app',
   components: {
-    Wrapper
+    Container
   },
   data: function () {
     return {
       query: '',
-      games: [],
+      inventory: [],
       colors: [],
       categories: []
     }
@@ -47,13 +42,10 @@ export default {
     this.getCategories();
   },
   methods: {
-    getGames: function () {
-      axios.get(`${API_HOST}/games?name=${this.query}`)
-      .then(result => {
-        console.log('result.data', result.data);
-        this.games = result.data;
-      });
-    },
+    getInventory: _.debounce(function () {
+      axios.get(`${API_HOST}/inventory?name=${this.query}`)
+      .then(result => this.inventory = result.data);
+    }),
     getColors: function () {
       axios.get(`${API_HOST}/colors`)
       .then(result => this.colors = result.data);
@@ -65,7 +57,7 @@ export default {
   },
   watch: {
     query: function () {
-      this.getGames();
+      this.getInventory();
     }
   }
 }
@@ -74,7 +66,6 @@ export default {
 <style>
 @import url('https://fonts.googleapis.com/css?family=Roboto+Mono:400,500,700');
 #app {
-  font-family: 'Roboto Mono', monospace;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }

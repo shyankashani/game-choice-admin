@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Wrapper from '@/components/Wrapper'
+import Container from '@/components/Container'
 import BootstrapVue from 'bootstrap-vue'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
@@ -12,8 +12,8 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'Wrapper',
-      component: Wrapper
+      name: 'Container',
+      component: Container
     }
   ]
 })
