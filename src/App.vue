@@ -2,25 +2,19 @@
   <div id="app" class="mx-5 px-5">
     <b-navbar class="py-5">
       <b-nav-form>
-        <b-form-input
-          placeholder="Search"
-          size="sm"
+        <input type="text"
+          class="form-control form-control-sm"
+          placeholder="Search for games"
           v-model="query"
-          v-on:change="_.debounce(getInventory)"
-        ></b-form-input>
-        <b-button
-          type="submit"
-          variant="secondary"
-          size="sm"
-          class="ml-3"
-        >Submit</b-button>
+          v-on:change="getInventory"
+        />
       </b-nav-form>
     </b-navbar>
     <container
       v-bind:inventory="inventory"
       v-bind:colors="colors"
       v-bind:categories="categories"
-    ></container>
+    />
   </div>
 </template>
 
@@ -48,10 +42,10 @@ export default {
     this.getCategories();
   },
   methods: {
-    getInventory: function () {
+    getInventory: _.debounce(function () {
       axios.get(`${API_HOST}/inventory?name=${this.query}`)
       .then(result => this.inventory = result.data);
-    },
+    }),
     getColors: function () {
       axios.get(`${API_HOST}/colors`)
       .then(result => this.colors = result.data);
@@ -72,7 +66,6 @@ export default {
 <style>
 @import url('https://fonts.googleapis.com/css?family=Roboto+Mono:400,500,700');
 #app {
-  font-family: 'Roboto Mono', monospace;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }

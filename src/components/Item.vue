@@ -1,70 +1,70 @@
 <template>
-  <div>
-      <b-row class="pt-4 pb-4 border border-bottom-0 border-left-0 border-right-0">
+  <tr>
+    <td>
+      {{item.game_id}}
+    </td>
 
-        <b-col align-self="center">
-          {{ item.name }}
-        </b-col>
-        <b-col align-self="center">
-          <b-form-input
-            placeholder="Location"
-            size="sm"
-            v-model="item.location"
-            v-bind:style="{ 'text-transform': 'uppercase' }"
-          ></b-form-input>
-        </b-col>
+      <td>
+        {{item.name}}
+      </td>
 
-        <b-col align-self="center">
-          <b-form-select
-            size="sm"
-            v-model="item.color_id"
-            v-bind:style="{
-              border: '1px solid ' + selectedColorHex,
-              color: selectedColorHex
-            }"
-          ><option
-              v-for="color in colors"
-              :value="color.id"
-              v-bind:style="{ color: color.hex }"
-            > {{ color.name }} </option>
-          </b-form-select>
-        </b-col>
+      <td>
+        <input type="text"
+          class="form-control form-control-sm"
+          placeholder="Location"
+          v-model="item.location"
+        />
+      </td>
 
-        <b-col align-self="center">
-          <b-form-select
-            size="sm"
-            v-model="item.category_id"
-          ><option v-for="category in categories" :value="category.id">
-              {{ category.name }}
-            </option>
-          </b-form-select>
-        </b-col>
+      <td>
+        <select
+          class="form-control form-control-sm h-100"
+          v-model="item.color_id"
+          :style="{
+            border: `1px solid ${selectedColorHex}`,
+            color: selectedColorHex
+          }">
+          <option
+            v-for="color in colors"
+            :value="color.id"
+            :style="{ color: color.hex }"
+          > {{ color.name }} </option>
+        </select>
+      </td>
 
-        <b-col align-self="center">
-          <b-form-textarea
-            v-model="item.notes"
-            placeholder="Notes"
-            :rows="3"
-            :max-rows="6"
-          ></b-form-textarea>
-        </b-col>
+      <td>
+        <select
+          class="form-control form-control-sm h-100"
+          v-model="item.category_id"
+        ><option v-for="category in categories" :value="category.id">
+            {{ category.name }}
+          </option>
+        </select>
+      </td>
 
-        <b-col align-self="center">
-          <b-button
-            type="submit"
-            variant="secondary"
-            size="sm"
-            v-on:click="updateInventory"
-          > Save </b-button>
-        </b-col>
+      <td>
+        <textarea
+          class="form-control form-control-sm"
+          v-model="item.notes"
+          placeholder="Notes"
+          :rows="1"
+          :max-rows="3"
+        />
+      </td>
 
-        <b-col align-self="center"
-          v-html="status.symbol"
-          v-bind:style="{ color: status.color }"
-        ></b-col>
+      <td>
+        <button type="submit"
+          class="btn btn-outline-secondary btn-sm h-100"
+          v-on:click="updateInventory"
+        > Save </button>
+      </td>
 
-      </b-row>
-  </div>
+      <td
+        v-html="status.symbol"
+        :style="{ color: status.color }"
+      ></td>
+
+  </tr>
 </template>
 
 <script>
@@ -98,20 +98,20 @@
     methods: {
       updateInventory: function () {
         this.isUpdatingInventory = true;
-        axios.post(`${API_HOST}/item?${this.generateInventoryQuery()}`)
+        axios.post(`${API_HOST}/inventory?${this.generateInventoryQuery()}`)
         .then(result => {
           this.isUpdatingInventory = false;
           this.isUpdateSuccessful = result.status === 200;
         })
       },
       generateInventoryQuery: function() {
+        const i = this.item;
         return [
-          `itemId=${this.item.id}`,
-          `itemId=${this.item.item_id}`,
-          `location=${this.item.location}`,
-          `colorId=${this.item.color_id}`,
-          `categoryId=${this.item.category_id}`,
-          `notes=${this.item.notes}`
+          `game_id=${i.game_id}`,
+          `location=${i.location}`,
+          `colorId=${i.color_id}`,
+          `categoryId=${i.category_id}`,
+          `notes=${i.notes}`
         ].join(`&`)
       }
     }
