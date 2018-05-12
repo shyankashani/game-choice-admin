@@ -3,14 +3,13 @@
       <b-row class="pt-4 pb-4 border border-bottom-0 border-left-0 border-right-0">
 
         <b-col align-self="center">
-          {{ game.name }}
+          {{ item.name }}
         </b-col>
-
         <b-col align-self="center">
           <b-form-input
             placeholder="Location"
             size="sm"
-            v-model="inventory.location"
+            v-model="item.location"
             v-bind:style="{ 'text-transform': 'uppercase' }"
           ></b-form-input>
         </b-col>
@@ -18,7 +17,7 @@
         <b-col align-self="center">
           <b-form-select
             size="sm"
-            v-model="inventory.color_id"
+            v-model="item.color_id"
             v-bind:style="{
               border: '1px solid ' + selectedColorHex,
               color: selectedColorHex
@@ -34,7 +33,7 @@
         <b-col align-self="center">
           <b-form-select
             size="sm"
-            v-model="inventory.category_id"
+            v-model="item.category_id"
           ><option v-for="category in categories" :value="category.id">
               {{ category.name }}
             </option>
@@ -43,7 +42,7 @@
 
         <b-col align-self="center">
           <b-form-textarea
-            v-model="inventory.notes"
+            v-model="item.notes"
             placeholder="Notes"
             :rows="3"
             :max-rows="6"
@@ -74,19 +73,18 @@
   import { API_HOST } from '../config';
 
   export default {
-    name: 'Game',
-    props: ['game', 'colors', 'categories'],
+    name: 'Item',
+    props: ['item', 'colors', 'categories'],
     data: function () {
       return {
         isUpdatingInventory: false,
-        isUpdateSuccessful: true,
-        inventory: {}
+        isUpdateSuccessful: true
       }
     },
     computed: {
       selectedColorHex: function() {
-        return this.inventory.color_id
-          ? _.find(this.colors, { id: this.inventory.color_id}).hex
+        return this.item.color_id
+          ? _.find(this.colors, { id: this.item.color_id}).hex
           : `#111111`;
       },
       status: function() {
@@ -97,17 +95,10 @@
         : { symcol: '&#10060;', color: '#d9534f' }
       }
     },
-    created: function () {
-      this.getInventory();
-    },
     methods: {
-      getInventory: function () {
-        axios.get(`${API_HOST}/inventory?gameId=${this.game.id}`)
-        .then(result => this.inventory = result.data[0] );
-      },
       updateInventory: function () {
         this.isUpdatingInventory = true;
-        axios.post(`${API_HOST}/inventory?${this.generateInventoryQuery()}`)
+        axios.post(`${API_HOST}/item?${this.generateInventoryQuery()}`)
         .then(result => {
           this.isUpdatingInventory = false;
           this.isUpdateSuccessful = result.status === 200;
@@ -115,12 +106,12 @@
       },
       generateInventoryQuery: function() {
         return [
-          `inventoryId=${this.inventory.id}`,
-          `gameId=${this.inventory.game_id}`,
-          `location=${this.inventory.location}`,
-          `colorId=${this.inventory.color_id}`,
-          `categoryId=${this.inventory.category_id}`,
-          `notes=${this.inventory.notes}`
+          `itemId=${this.item.id}`,
+          `itemId=${this.item.item_id}`,
+          `location=${this.item.location}`,
+          `colorId=${this.item.color_id}`,
+          `categoryId=${this.item.category_id}`,
+          `notes=${this.item.notes}`
         ].join(`&`)
       }
     }

@@ -6,7 +6,7 @@
           placeholder="Search"
           size="sm"
           v-model="query"
-          v-on:change="getGames"
+          v-on:change="_.debounce(getInventory)"
         ></b-form-input>
         <b-button
           type="submit"
@@ -16,28 +16,29 @@
         >Submit</b-button>
       </b-nav-form>
     </b-navbar>
-    <wrapper
-      v-bind:games="games"
+    <container
+      v-bind:inventory="inventory"
       v-bind:colors="colors"
       v-bind:categories="categories"
-    ></wrapper>
+    ></container>
   </div>
 </template>
 
 <script>
 import axios from 'axios'
-import Wrapper from './components/Wrapper';
+import _ from 'lodash';
+import Container from './components/Container';
 import { API_HOST } from './config.js';
 
 export default {
   name: 'app',
   components: {
-    Wrapper
+    Container
   },
   data: function () {
     return {
       query: '',
-      games: [],
+      inventory: [],
       colors: [],
       categories: []
     }
@@ -47,12 +48,9 @@ export default {
     this.getCategories();
   },
   methods: {
-    getGames: function () {
-      axios.get(`${API_HOST}/games?name=${this.query}`)
-      .then(result => {
-        console.log('result.data', result.data);
-        this.games = result.data;
-      });
+    getInventory: function () {
+      axios.get(`${API_HOST}/inventory?name=${this.query}`)
+      .then(result => this.inventory = result.data);
     },
     getColors: function () {
       axios.get(`${API_HOST}/colors`)
@@ -65,7 +63,7 @@ export default {
   },
   watch: {
     query: function () {
-      this.getGames();
+      this.getInventory();
     }
   }
 }

@@ -1,10 +1,10 @@
 <template>
   <div id="hello">
     <b-container fluid>
-      <game
-        v-for="game in games"
-        v-bind:game="game"
-        v-bind:key="game.id"
+      <item
+        v-for="item in inventory"
+        v-bind:item="item"
+        v-bind:key="item.id"
         v-bind:colors="colors"
         v-bind:categories="categories"
       />
@@ -13,13 +13,13 @@
 </template>
 
 <script>
-import Game from './Game';
+import Item from './Item';
 
 export default {
-  name: 'wrapper',
-  props: ['games', 'colors', 'categories'],
+  name: 'container`',
+  props: ['inventory', 'colors', 'categories'],
   components: {
-    Game
+    Item
   }
 }
 </script>
