@@ -6,12 +6,12 @@
           class="form-control form-control-sm"
           placeholder="Search for games"
           v-model="query"
-          v-on:change="getInventory"
+          v-on:change="filterInventory"
         />
       </b-nav-form>
     </b-navbar>
     <container
-      v-bind:inventory="inventory"
+      v-bind:inventory="inventory || filteredInventory"
       v-bind:colors="colors"
       v-bind:categories="categories"
     />
@@ -34,17 +34,32 @@ export default {
       query: '',
       inventory: [],
       colors: [],
-      categories: []
+      categories: [],
+      filteredInventory: []
     }
   },
   created: function () {
     this.getColors();
     this.getCategories();
+    this.getInventory();
   },
   methods: {
-    getInventory: _.debounce(function () {
+    filterInventory: function () {
+      this.query ?
+      this.filteredInventory = _.filter(this.inventory, { 'name': this.query }) :
+      this.filteredInventory = this.inventory
+    },
+    getInventory: function () {
+      axios.get(`${API_HOST}/inventory`)
+      .then(result => {
+        this.inventory = result.data
+      });
+    },
+    searchInventory: _.debounce(function () {
       axios.get(`${API_HOST}/inventory?name=${this.query}`)
-      .then(result => this.inventory = result.data);
+      .then(result => {
+        this.inventory = result.data
+      });
     }),
     getColors: function () {
       axios.get(`${API_HOST}/colors`)
@@ -57,7 +72,7 @@ export default {
   },
   watch: {
     query: function () {
-      this.getInventory();
+      this.searchInventory();
     }
   }
 }

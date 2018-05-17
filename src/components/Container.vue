@@ -8,6 +8,7 @@
           <th>Location</th>
           <th>Color</th>
           <th>Category</th>
+          <th>Staff Pick</th>
           <th>Notes</th>
           <th></th>
           <th>Status</th>

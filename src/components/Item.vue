@@ -13,6 +13,7 @@
           class="form-control form-control-sm"
           placeholder="Location"
           v-model="item.location"
+          v-if="isManagingInventory"
         />
       </td>
 
@@ -20,6 +21,7 @@
         <select
           class="form-control form-control-sm h-100"
           v-model="item.color_id"
+          v-if="isManagingInventory"
           :style="{
             border: `1px solid ${selectedColorHex}`,
             color: selectedColorHex
@@ -36,6 +38,7 @@
         <select
           class="form-control form-control-sm h-100"
           v-model="item.category_id"
+          v-if="isManagingInventory"
         ><option v-for="category in categories" :value="category.id">
             {{ category.name }}
           </option>
@@ -43,9 +46,21 @@
       </td>
 
       <td>
+        <div class="form-check">
+          <input type="checkbox"
+            id="staff-pick"
+            class="form-check-input"
+            v-model="item.staff_pick"
+            v-if="isManagingInventory"
+          />
+        </div>
+      </td>
+
+      <td>
         <textarea
           class="form-control form-control-sm"
           v-model="item.notes"
+          v-if="isManagingInventory"
           placeholder="Notes"
           :rows="1"
           :max-rows="3"
@@ -56,11 +71,13 @@
         <button type="submit"
           class="btn btn-outline-secondary btn-sm h-100"
           v-on:click="updateInventory"
+          v-if="isManagingInventory"
         > Save </button>
       </td>
 
       <td
         v-html="status.symbol"
+        v-if="isManagingInventory"
         :style="{ color: status.color }"
       ></td>
 
@@ -77,6 +94,7 @@
     props: ['item', 'colors', 'categories'],
     data: function () {
       return {
+        isManagingInventory: true,
         isUpdatingInventory: false,
         isUpdateSuccessful: true
       }
@@ -106,13 +124,15 @@
       },
       generateInventoryQuery: function() {
         const i = this.item;
-        return [
+        const queryString = [
           `game_id=${i.game_id}`,
           `location=${i.location}`,
           `colorId=${i.color_id}`,
           `categoryId=${i.category_id}`,
+          `staffPick=${i.staff_pick}`,
           `notes=${i.notes}`
-        ].join(`&`)
+        ].join(`&`);
+        return queryString;
       }
     }
   }
