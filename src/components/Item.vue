@@ -6,22 +6,8 @@
     }">
 
       <div class="col col-2">
-        <div
-          class="rounded border"
-          :style="{
-            display: 'flex',
-            height: '75px',
-            width: '75px',
-            justifyContent: 'center',
-            alignItems: 'flex-start',
-            overflow: 'hidden'
-          }">
-          <img class="img-fluid" :src="item.image"
-          :style="{
-            flexShrink: '0',
-            minWidth: '100%',
-            minHeight: '100%'
-            }"/>
+        <div class="rounded border image-wrapper-small">
+          <img class="img-fluid image" :src="item.image"/>
         </div>
       </div>
 
@@ -70,6 +56,9 @@
             {{ category.name }}
           </option>
         </select>
+        <div class="image-wrapper-tiny">
+          <img class="image" :src="selectedCategoryImage" />
+        </div>
         {{ selectedCategory.name }}
       </div>
 
@@ -110,6 +99,13 @@
           ? _.find(this.categories, { id: this.item.category_id })
           : {}
       },
+      selectedCategoryImage: function () {
+        const categoryName = this.selectedCategory.name;
+        const imageName = _.chain(categoryName).lowerCase().split(' ').join('');
+        return _.size(this.selectedCategory)
+          ? require(`../assets/${imageName}.png`)
+          : require('../assets/default.png')
+      },
       status: function () {
         return this.isUpdatingInventory
           ? { symbol: '&#9678;', color: '#f0ad4e' }
@@ -144,4 +140,27 @@
 </script>
 
 <style scoped>
+  .image-wrapper-small {
+    display: flex;
+    height: 80px;
+    width: 80px;
+    justifyContent: center;
+    alignItems: flex-start;
+    overflow: hidden;
+  }
+
+  .image-wrapper-tiny {
+    display: flex;
+    height: 40px;
+    width: 40px;
+    justifyContent: center;
+    alignItems: flex-start;
+    overflow: hidden;
+  }
+
+  .image {
+    flexShrink: 0;
+    minWidth: 100%;
+    minHeight: 100%;
+  }
 </style>

@@ -4,7 +4,7 @@
         <div class="col col-2"></div>
         <div class="col col-2">Name</div>
         <div class="col col-2">Location</div>
-        <div class="col col-2">Color</div>
+        <div class="col col-2">Difficulty</div>
         <div class="col col-2">Category</div>
       </div>
       <item
