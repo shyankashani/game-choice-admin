@@ -9,10 +9,15 @@
       </div>
       <item
         v-for="item in inventory"
-        v-bind:item="item"
-        v-bind:key="item.id"
-        v-bind:colors="colors"
-        v-bind:categories="categories"
+        :item="item"
+        :key="item.id"
+        :colors="colors"
+        :categories="categories"
+      />
+      <gamecard
+        v-for="item in inventory"
+        :item="item"
+        :key="item.id"
       />
       <spinner v-if="!inventory.length"/>
     </div>
@@ -21,11 +26,13 @@
 <script>
   import Item from './Item';
   import Spinner from './Spinner';
+  import Gamecard from './Gamecard';
+
 
   export default {
     name: 'container',
     props: ['inventory', 'colors', 'categories'],
-    components: { Item, Spinner }
+    components: { Item, Spinner, Gamecard }
   }
 </script>
 

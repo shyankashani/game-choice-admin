@@ -1,74 +1,73 @@
 <template>
   <div
-    class="row pt-4 pb-4"
-    :style="{
-      borderTop: '3px solid #F0F0F0'
-    }">
-
-      <div class="col col-2">
-        <div class="rounded border image-wrapper-small">
-          <img class="img-fluid image" :src="item.image"/>
-        </div>
+    class="row pt-3 pb-3"
+    :style="{borderTop: '3px solid #F0F0F0'}"
+    v-b-modal="item.id"
+  >
+    <div class="col col-2">
+      <div class="rounded border image-wrapper-small">
+        <img class="image" :src="item.image"/>
       </div>
+    </div>
 
-      <span class="col col-2 d-flex align-items-center">
-        {{ item.name }}
-      </span>
+    <span class="col col-2 d-flex align-items-center">
+      {{ item.name }}
+    </span>
 
-      <div class="col col-2 d-flex align-items-center">
-        <input type="text"
-          class="form-control form-control-sm"
-          placeholder="Location"
-          v-model="item.location"
-          v-if="isManagingInventory"
-        />
-        {{ item.location }}
+    <div class="col col-2 d-flex align-items-center">
+      <input type="text"
+        class="form-control form-control-sm"
+        placeholder="Location"
+        v-model="item.location"
+        v-if="isManagingInventory"
+      />
+      {{ item.location }}
+    </div>
+
+    <div class="col col-2 d-flex align-items-center">
+      <select
+        class="form-control form-control-sm h-100"
+        v-model="item.color_id"
+        v-if="isManagingInventory"
+        :style="{
+          border: `1px solid ${selectedColor.hex}`,
+          color: selectedColor.hex
+        }">
+        <option
+          v-for="color in colors"
+          :value="color.id"
+          :style="{ color: color.hex }"
+        > {{ color.name }} </option>
+      </select>
+      <div
+        class="rounded pt-1 pb-1 pl-2 pr-2 text-light"
+        :style="{ background: selectedColor.hex }">
+        {{ selectedColor.name }}
       </div>
+    </div>
 
-      <div class="col col-2 d-flex align-items-center">
-        <select
-          class="form-control form-control-sm h-100"
-          v-model="item.color_id"
-          v-if="isManagingInventory"
-          :style="{
-            border: `1px solid ${selectedColor.hex}`,
-            color: selectedColor.hex
-          }">
-          <option
-            v-for="color in colors"
-            :value="color.id"
-            :style="{ color: color.hex }"
-          > {{ color.name }} </option>
-        </select>
-        <div
-          class="rounded pt-1 pb-1 pl-2 pr-2 text-light"
-          :style="{ background: selectedColor.hex }">
-          {{ selectedColor.name }}
-        </div>
+    <div class="col col-2 d-flex align-items-center">
+      <select
+        class="form-control form-control-sm h-100"
+        v-model="item.category_id"
+        v-if="isManagingInventory"
+      ><option v-for="category in categories" :value="category.id">
+          {{ category.name }}
+        </option>
+      </select>
+      <div class="image-wrapper-tiny">
+        <img class="image" :src="selectedCategoryImage" />
       </div>
+      {{ selectedCategory.name }}
+    </div>
 
-      <div class="col col-2 d-flex align-items-center">
-        <select
-          class="form-control form-control-sm h-100"
-          v-model="item.category_id"
-          v-if="isManagingInventory"
-        ><option v-for="category in categories" :value="category.id">
-            {{ category.name }}
-          </option>
-        </select>
-        <div class="image-wrapper-tiny">
-          <img class="image" :src="selectedCategoryImage" />
-        </div>
-        {{ selectedCategory.name }}
-      </div>
-
-      <div class="col col-1">
-        <button type="submit"
-          class="btn btn-outline-secondary btn-sm h-100"
-          v-on:click="updateInventory"
-          v-if="isManagingInventory"
-        > Save </button>
-      </div>
+    <div class="col col-1">
+      <button type="submit"
+        class="btn btn-outline-secondary btn-sm h-100"
+        v-on:click="updateInventory"
+        v-if="isManagingInventory"
+      > Save </button>
+    </div>
 
   </div>
 </template>
@@ -145,7 +144,7 @@
     height: 80px;
     width: 80px;
     justifyContent: center;
-    alignItems: flex-start;
+    alignItems: center;
     overflow: hidden;
   }
 
@@ -154,7 +153,7 @@
     height: 40px;
     width: 40px;
     justifyContent: center;
-    alignItems: flex-start;
+    alignItems: center;
     overflow: hidden;
   }
 
