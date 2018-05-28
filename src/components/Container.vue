@@ -10,14 +10,14 @@
       <item
         v-for="item in inventory"
         :item="item"
-        :key="item.id"
+        :key="`item${item.id}`"
         :colors="colors"
         :categories="categories"
       />
       <gamecard
         v-for="item in inventory"
         :item="item"
-        :key="item.id"
+        :key="`gamecard${item.id}`"
       />
       <spinner v-if="!inventory.length"/>
     </div>

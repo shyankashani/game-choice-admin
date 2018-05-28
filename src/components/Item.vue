@@ -2,7 +2,7 @@
   <div
     class="row pt-3 pb-3"
     :style="{borderTop: '3px solid #F0F0F0'}"
-    v-b-modal="item.id"
+    v-b-modal="`id${item.id}`"
   >
     <div class="col col-2">
       <div class="rounded border image-wrapper-small">
@@ -40,7 +40,7 @@
         > {{ color.name }} </option>
       </select>
       <div
-        class="rounded pt-1 pb-1 pl-2 pr-2 text-light"
+        class="badge badge-pill pt-2 pb-2 pl-3 pr-3 text-light"
         :style="{ background: selectedColor.hex }">
         {{ selectedColor.name }}
       </div>
@@ -55,10 +55,8 @@
           {{ category.name }}
         </option>
       </select>
-      <div class="image-wrapper-tiny">
-        <img class="image" :src="selectedCategoryImage" />
-      </div>
-      {{ selectedCategory.name }}
+        <img class="img w-25" :src="selectedCategoryImage" />
+        {{ selectedCategory.name }}
     </div>
 
     <div class="col col-1">
@@ -143,23 +141,23 @@
     display: flex;
     height: 80px;
     width: 80px;
-    justifyContent: center;
-    alignItems: center;
+    justify-content: left;
+    align-items: start;
     overflow: hidden;
   }
 
   .image-wrapper-tiny {
     display: flex;
-    height: 40px;
-    width: 40px;
-    justifyContent: center;
-    alignItems: center;
+    height: 30px;
+    width: 30px;
+    justify-content: left;
+    align-items: start;
     overflow: hidden;
   }
 
   .image {
-    flexShrink: 0;
-    minWidth: 100%;
-    minHeight: 100%;
+    flex-shrink: 0;
+    max-width: 180%;
+    max-height: 180%;
   }
 </style>
