@@ -86,8 +86,7 @@ export default {
 </script>
 
 <style>
-@import url('https://fonts.googleapis.com/css?family=Roboto+Mono:400,500,700');
-@import url('https://fonts.googleapis.com/css?family=Montserrat:500,600,700&subset=latin-ext');
+@import url('https://fonts.googleapis.com/css?family=Montserrat:600,700,800,900&subset=latin-ext');
 #app {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
