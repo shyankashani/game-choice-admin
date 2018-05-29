@@ -10,52 +10,91 @@
   >
     <div class="container pl-5 pb-5 pr-5">
       <div class="row">
-        <div class="col col-4">
-          <img :src="item.image" class="align-self-start rounded border w-100" />
+        <div class="col col-5">
+          <img :src="item.image" class="align-self-start rounded w-100 border" />
         </div>
-        <div class="col col-8">
-          <div class="mb-2">
-            <div class="h1 font-weight-bold">
-              {{ item.name }}
+        <div class="col col-7">
+          <div class="container">
+            <div class="row">
+              <div class="col">
+                <fa :icon="faMapMarkerAlt" />
+                Shelf {{ item.location }}
+              </div>
             </div>
-            <div class="h2">
-              <span class="mr-2">
-                <fa class="mr-1" :icon="faUser" />
+            <div class="row">
+              <div class="col h1 font-weight-bold">
+                {{ item.name }}
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-auto pr-0">
+                <fa :icon="faUser" />
                 {{ this.numberOfPlayers }}
-              </span>
-              <span class="ml-2 mr-2">
-                <fa class="mr-1" :icon="faClock" />
+              </div>
+              <div class="col-auto pr-0">
+                <fa :icon="faClock" />
                 {{ this.playTime }}
-              </span>
-              <span class="ml-2">
-                <fa class="mr-1" :icon="faChild" />
+              </div>
+              <div class="col-auto pr-0">
+                <fa :icon="faChild" />
                 {{ this.minAge }}
-              </span>
+              </div>
             </div>
-            <div>
-              <span class="mr-1">
-                Board Game Geek Weight:
-              </span>
-              <b-progress :value="this.bggWeight" :max="100" show-progress />
+            <div class="row mt-2">
+              <div class="col">
+                <div v-if="this.isShowingDescription">
+                  <p v-for="paragraph in this.description.paragraphs">
+                    {{ paragraph }}
+                  </p>
+                  <span
+                    class="text-primary"
+                    v-on:click="toggleDescription"
+                    :style="{ cursor: 'pointer' }"
+                  >
+                    Show less
+                  </span>
+                </div>
+                <div v-else>
+                  {{ this.description.truncated }}
+                  <span
+                    class="text-primary"
+                    v-on:click="toggleDescription"
+                    :style="{ cursor: 'pointer' }"
+                  >
+                    Show more
+                  </span>
+                </div>
+              </div>
             </div>
           </div>
         </div>
-        </div>
+      </div>
     </div>
   </b-modal>
 </template>
 
 <script>
   import he from 'he';
+  import _ from 'lodash';
   import fa from '@fortawesome/vue-fontawesome';
-  import { faUser, faClock, faChild } from '@fortawesome/fontawesome-free-solid';
+  import { faUser, faClock, faChild, faMapMarkerAlt } from '@fortawesome/fontawesome-free-solid';
 
   export default {
     name: 'gamecard',
-    props: ['item'],
+    props: ['item', 'selectedColor', 'selectedCategory', 'selectedCategoryImage'],
     components: { fa },
+    data: function () {
+      return {
+        isShowingDescription: false
+      }
+    },
     computed: {
-      decodedDescription: () => he.decode(this.item.description),
+      description: function () {
+        const descArray = this.item.description.split('&#10;');
+        const paragraphs = descArray.map(p => p.length ? he.decode(p) : '' );
+        const truncated = _.truncate(paragraphs[0], { length: 480, separator: '.', omission: '.' })
+        return { paragraphs, truncated };
+      },
       numberOfPlayers: function () {
         const minPlayers = this.item.min_players;
         const maxPlayers = this.item.max_players;
@@ -81,6 +120,14 @@
       faUser: () => faUser,
       faClock: () => faClock,
       faChild: () => faChild,
+      faMapMarkerAlt: () => faMapMarkerAlt,
+    },
+    methods: {
+      toggleDescription: function () {
+        this.isShowingDescription
+          ? this.isShowingDescription = false
+          : this.isShowingDescription = true
+      }
     }
   }
 </script>
@@ -91,6 +138,5 @@
   }
 
   .h2 * {
-    font-size: 16px !important;
   }
 </style>

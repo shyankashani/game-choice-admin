@@ -14,11 +14,6 @@
         :colors="colors"
         :categories="categories"
       />
-      <gamecard
-        v-for="item in inventory"
-        :item="item"
-        :key="`gamecard${item.id}`"
-      />
       <spinner v-if="!inventory.length"/>
     </div>
 </template>
@@ -26,13 +21,11 @@
 <script>
   import Item from './Item';
   import Spinner from './Spinner';
-  import Gamecard from './Gamecard';
-
 
   export default {
     name: 'container',
     props: ['inventory', 'colors', 'categories'],
-    components: { Item, Spinner, Gamecard }
+    components: { Item, Spinner }
   }
 </script>
 

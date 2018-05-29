@@ -1,72 +1,77 @@
 <template>
-  <div
-    class="row pt-3 pb-3"
-    :style="{borderTop: '3px solid #F0F0F0'}"
-    v-b-modal="`id${item.id}`"
-  >
-    <div class="col col-2">
-      <div class="rounded border image-wrapper-small">
-        <img class="image" :src="item.image"/>
+  <div>
+    <gamecard :item="item" :key="`gamecard${item.id}`"
+      :selectedColor="this.selectedColor" :selectedCategory="this.selectedCategory"
+      :selectedCategoryImage="this.selectedCategoryImage"
+    />
+    <div
+      class="row pt-3 pb-3"
+      :style="{borderTop: '3px solid #F0F0F0'}"
+      v-b-modal="`id${item.id}`"
+    >
+      <div class="col col-2">
+        <div class="rounded border image-wrapper-small">
+          <img class="image" :src="item.image"/>
+        </div>
+      </div>
+
+      <span class="col col-2 d-flex align-items-center">
+        {{ item.name }}
+      </span>
+
+      <div class="col col-2 d-flex align-items-center">
+        <input type="text"
+          class="form-control form-control-sm"
+          placeholder="Location"
+          v-model="item.location"
+          v-if="isManagingInventory"
+        />
+        {{ item.location }}
+      </div>
+
+      <div class="col col-2 d-flex align-items-center">
+        <select
+          class="form-control form-control-sm h-100"
+          v-model="item.color_id"
+          v-if="isManagingInventory"
+          :style="{
+            border: `1px solid ${selectedColor.hex}`,
+            color: selectedColor.hex
+          }">
+          <option
+            v-for="color in colors"
+            :value="color.id"
+            :style="{ color: color.hex }"
+          > {{ color.name }} </option>
+        </select>
+        <div
+          class="badge badge-pill pt-2 pb-2 pl-3 pr-3 text-light"
+          :style="{ background: selectedColor.hex }">
+          {{ selectedColor.name }}
+        </div>
+      </div>
+
+      <div class="col col-2 d-flex align-items-center">
+        <select
+          class="form-control form-control-sm h-100"
+          v-model="item.category_id"
+          v-if="isManagingInventory"
+        ><option v-for="category in categories" :value="category.id">
+            {{ category.name }}
+          </option>
+        </select>
+          <img class="img w-25" :src="selectedCategoryImage" />
+          {{ selectedCategory.name }}
+      </div>
+
+      <div class="col col-1">
+        <button type="submit"
+          class="btn btn-outline-secondary btn-sm h-100"
+          v-on:click="updateInventory"
+          v-if="isManagingInventory"
+        > Save </button>
       </div>
     </div>
-
-    <span class="col col-2 d-flex align-items-center">
-      {{ item.name }}
-    </span>
-
-    <div class="col col-2 d-flex align-items-center">
-      <input type="text"
-        class="form-control form-control-sm"
-        placeholder="Location"
-        v-model="item.location"
-        v-if="isManagingInventory"
-      />
-      {{ item.location }}
-    </div>
-
-    <div class="col col-2 d-flex align-items-center">
-      <select
-        class="form-control form-control-sm h-100"
-        v-model="item.color_id"
-        v-if="isManagingInventory"
-        :style="{
-          border: `1px solid ${selectedColor.hex}`,
-          color: selectedColor.hex
-        }">
-        <option
-          v-for="color in colors"
-          :value="color.id"
-          :style="{ color: color.hex }"
-        > {{ color.name }} </option>
-      </select>
-      <div
-        class="badge badge-pill pt-2 pb-2 pl-3 pr-3 text-light"
-        :style="{ background: selectedColor.hex }">
-        {{ selectedColor.name }}
-      </div>
-    </div>
-
-    <div class="col col-2 d-flex align-items-center">
-      <select
-        class="form-control form-control-sm h-100"
-        v-model="item.category_id"
-        v-if="isManagingInventory"
-      ><option v-for="category in categories" :value="category.id">
-          {{ category.name }}
-        </option>
-      </select>
-        <img class="img w-25" :src="selectedCategoryImage" />
-        {{ selectedCategory.name }}
-    </div>
-
-    <div class="col col-1">
-      <button type="submit"
-        class="btn btn-outline-secondary btn-sm h-100"
-        v-on:click="updateInventory"
-        v-if="isManagingInventory"
-      > Save </button>
-    </div>
-
   </div>
 </template>
 
@@ -75,9 +80,12 @@
   import _ from 'lodash';
   import { API_HOST } from '../config';
 
+  import Gamecard from './Gamecard';
+
   export default {
     name: 'Item',
     props: ['item', 'colors', 'categories'],
+    components: { Gamecard },
     data: function () {
       return {
         isManagingInventory: false,
