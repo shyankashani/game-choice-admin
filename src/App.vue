@@ -1,12 +1,11 @@
 <template>
   <div id="app" class="text-secondary">
-    <navigation />
-    <div class="container-fluid mt-5 pt-5">
+    <div class="container-fluid">
       <div class="row">
-        <div class="col col-3">
-          <sidebar />
+        <div class="col col-2 pr-0 pl-0">
+          <sidebar :updateQuery="this.updateQuery" />
         </div>
-        <div class="col col-9">
+        <div class="col col-10 pl-0 pr-0">
           <container :inventory="filteredInventory" :colors="colors" :categories="categories" />
         </div>
       </div>
@@ -36,7 +35,6 @@ export default {
       inventory: [],
       colors: [],
       categories: [],
-      filteredInventory: [],
       isLoadingInventory: false
     }
   },
@@ -45,28 +43,22 @@ export default {
     this.getCategories();
     this.getInventory();
   },
+  computed: {
+    filteredInventory: function () {
+      return this.query.length
+        ? _.filter(this.inventory, item => _.includes(item.game.name, this.query))
+        : this.inventory
+    }
+  },
   methods: {
     getInventory: function () {
       this.isLoadingInventory = true;
       axios.get(`${API_HOST}/inventory`)
       .then(result => {
+        console.log('result.data', result.data);
         this.isLoadingInventory = false;
         this.inventory = result.data;
-        this.filteredInventory = result.data;
       });
-    },
-    searchInventory: _.debounce(function () {
-      axios.get(`${API_HOST}/inventory?name=${this.query}`)
-      .then(result => {
-        this.inventory = result.data
-      });
-    }),
-    filterInventory: function() {
-      if (this.query) {
-        this.filteredInventory = _.filter(this.inventory, { 'name': this.query });
-      } else {
-        this.filteredInventory = this.inventory;
-      }
     },
     getColors: function () {
       axios.get(`${API_HOST}/colors`)
@@ -75,11 +67,9 @@ export default {
     getCategories: function () {
       axios.get(`${API_HOST}/categories`)
       .then(result => this.categories = result.data);
-    }
-  },
-  watch: {
-    query: function () {
-      this.filterInventory();
+    },
+    updateQuery: function (query) {
+      this.query = query;
     }
   }
 }

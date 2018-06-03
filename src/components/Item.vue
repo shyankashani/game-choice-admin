@@ -1,25 +1,23 @@
 <template>
   <div>
     <gamecard :item="item" :key="`gamecard${item.id}`"
-      :selectedColor="this.selectedColor" :selectedCategory="this.selectedCategory"
       :selectedCategoryImage="this.selectedCategoryImage"
     />
     <div
-      class="row pt-3 pb-3"
-      :style="{borderTop: '3px solid #F0F0F0'}"
+      class="row"
       v-b-modal="`id${item.id}`"
     >
-      <div class="col col-2">
+      <div class="col col-2 bg-light pt-3 pb-3 border-bottom border-left pl-3">
         <div class="rounded border image-wrapper-small">
-          <img class="image" :src="item.image"/>
+          <img class="image" :src="item.game.image"/>
         </div>
       </div>
 
-      <span class="col col-2 d-flex align-items-center">
-        {{ item.name }}
+      <span class="col col-2 bg-light pt-3 pb-3 border-bottom d-flex align-items-center">
+        {{ item.game.name }}
       </span>
 
-      <div class="col col-2 d-flex align-items-center">
+      <div class="col col-2 bg-light pt-3 pb-3 border-bottom d-flex align-items-center">
         <input type="text"
           class="form-control form-control-sm"
           placeholder="Location"
@@ -29,14 +27,14 @@
         {{ item.location }}
       </div>
 
-      <div class="col col-2 d-flex align-items-center">
+      <div class="col col-2 bg-light pt-3 pb-3 border-bottom d-flex align-items-center">
         <select
           class="form-control form-control-sm h-100"
-          v-model="item.color_id"
+          v-model="item.color.id"
           v-if="isManagingInventory"
           :style="{
-            border: `1px solid ${selectedColor.hex}`,
-            color: selectedColor.hex
+            border: `1px solid ${item.color.hex}`,
+            color: item.color.hex
           }">
           <option
             v-for="color in colors"
@@ -46,22 +44,22 @@
         </select>
         <div
           class="badge badge-pill pt-2 pb-2 pl-3 pr-3 text-light"
-          :style="{ background: selectedColor.hex }">
-          {{ selectedColor.name }}
+          :style="{ background: item.color.hex }">
+          {{ item.color.name }}
         </div>
       </div>
 
-      <div class="col col-2 d-flex align-items-center">
+      <div class="col col-2 bg-light pt-3 pb-3 border-bottom border-right d-flex align-items-center">
         <select
           class="form-control form-control-sm h-100"
-          v-model="item.category_id"
+          v-model="item.category.id"
           v-if="isManagingInventory"
         ><option v-for="category in categories" :value="category.id">
             {{ category.name }}
           </option>
         </select>
           <img class="img w-25" :src="selectedCategoryImage" />
-          {{ selectedCategory.name }}
+          {{ item.category.name }}
       </div>
 
       <div class="col col-1">
@@ -105,9 +103,9 @@
           : {}
       },
       selectedCategoryImage: function () {
-        const categoryName = this.selectedCategory.name;
+        const categoryName = this.item.category.name;
         const imageName = _.chain(categoryName).lowerCase().split(' ').join('');
-        return _.size(this.selectedCategory)
+        return _.size(this.item.category)
           ? require(`../assets/${imageName}.png`)
           : require('../assets/default.png')
       },

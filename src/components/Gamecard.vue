@@ -2,7 +2,6 @@
   <b-modal
     :id="`id${item.id}`"
     size="lg"
-    centered=true
     no-fade
     hide-footer
     header-class="pr-4 pt-4 border-0"
@@ -11,7 +10,7 @@
     <div class="container pl-5 pb-5 pr-5">
       <div class="row">
         <div class="col col-4">
-          <img :src="item.image" class="align-self-start rounded w-100 border" />
+          <img :src="item.game.image" class="align-self-start rounded w-100 border" />
         </div>
         <div class="col col-8">
           <div class="container">
@@ -23,7 +22,7 @@
             </div>
             <div class="row">
               <div class="col h1 text-dark">
-                {{ item.name }}
+                {{ item.game.name }}
               </div>
             </div>
             <div class="row font-weight-bold text-primary">
@@ -122,31 +121,31 @@
     },
     computed: {
       description: function () {
-        const descArray = this.item.description.split('&#10;');
+        const descArray = this.item.game.description.split('&#10;');
         const paragraphs = descArray.map(p => p.length ? he.decode(p) : '' );
         const truncated = _.truncate(paragraphs[0], { length: 480, separator: '.', omission: '.' })
         return { paragraphs, truncated };
       },
       numberOfPlayers: function () {
-        const minPlayers = this.item.min_players;
-        const maxPlayers = this.item.max_players;
+        const minPlayers = this.item.game.min_players;
+        const maxPlayers = this.item.game.max_players;
         return minPlayers < maxPlayers
           ? `${minPlayers}-${maxPlayers} players`
           : `${maxPlayers} players`;
       },
       playTime: function () {
-        const minPlayTime = this.item.min_play_time;
-        const maxPlayTime = this.item.max_play_time;
+        const minPlayTime = this.item.game.min_play_time;
+        const maxPlayTime = this.item.game.max_play_time;
         return minPlayTime < maxPlayTime
           ? `${minPlayTime}-${maxPlayTime} minutes`
           : `${maxPlayTime} minutes`;
       },
       minAge: function () {
-        const minAge = this.item.min_age;
+        const minAge = this.item.game.min_age;
         return `${minAge} years and up`;
       },
       bggDifficulty: function () {
-        const bggAverageWeight = this.item.bgg_average_weight;
+        const bggAverageWeight = this.item.game.bgg_average_weight;
         const absolute = Number(bggAverageWeight);
         const percentage = Math.round((absolute / 5) * 100);
         const width = `${percentage}%`;
@@ -161,7 +160,7 @@
         return { absolute, width, className };
       },
       bggRating: function () {
-        const bggAverageRating = this.item.bgg_average_rating;
+        const bggAverageRating = this.item.game.bgg_average_rating;
         const absolute = Number(bggAverageRating);
         const percentage = Math.round((absolute / 10) * 100);
         const width = `${Math.round((absolute / 10) * 100)}%`;
@@ -195,12 +194,5 @@
   .h1 {
     font-size: 36px !important;
     font-weight: 800;
-  }
-
-  .h2 * {
-  }
-
-  .description * {
-    /* font-family: 'Merriweather', serif !important; */
   }
 </style>
