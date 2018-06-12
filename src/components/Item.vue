@@ -7,7 +7,7 @@
       class="row"
       v-b-modal="`id${item.id}`"
     >
-      <div class="col col-4 bg-light pt-3 pb-3 border-bottom border-left pl-3">
+      <div class="col col-2 bg-light pt-3 pb-3 border-bottom border-left pl-3">
         <div class="rounded border image-wrapper-small">
           <img class="image" :src="item.game.image"/>
         </div>
@@ -49,7 +49,7 @@
         </div>
       </div>
 
-      <div class="col col-2 bg-light pt-3 pb-3 border-bottom border-right d-flex align-items-center">
+      <div class="col col-2 bg-light pt-3 pb-3 border-bottom d-flex align-items-center">
         <select
           class="form-control form-control-sm h-100"
           v-model="item.category.id"
@@ -61,6 +61,10 @@
           <img class="img w-25" :src="selectedCategoryImage" />
           {{ item.category.name }}
       </div>
+
+      <span class="col col-2 bg-light pt-3 pb-3 border-bottom border-right d-flex align-items-center">
+        <fa :icon="faEdit" />
+      </span>
 
       <div class="col col-1">
         <button type="submit"
@@ -77,13 +81,15 @@
   import axios from 'axios';
   import _ from 'lodash';
   import { API_HOST } from '../config';
+  import fa from '@fortawesome/vue-fontawesome';
+  import { faEdit } from '@fortawesome/fontawesome-free-solid';
 
   import Gamecard from './Gamecard';
 
   export default {
     name: 'Item',
     props: ['item', 'colors', 'categories'],
-    components: { Gamecard },
+    components: { Gamecard, fa },
     data: function () {
       return {
         isManagingInventory: false,
@@ -92,6 +98,7 @@
       }
     },
     computed: {
+      faEdit: () => faEdit,
       selectedColor: function () {
         return this.item.color_id
           ? _.find(this.colors, { id: this.item.color_id})

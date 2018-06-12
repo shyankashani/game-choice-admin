@@ -86,4 +86,7 @@ export default {
   font-family: 'Montserrat', sans-serif;
   font-size: 14px;
 }
+.font-size-normal {
+  font-size: 14px;
+}
 </style>

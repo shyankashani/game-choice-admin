@@ -4,6 +4,7 @@
     size="lg"
     no-fade
     hide-footer
+    centered
     header-class="pr-4 pt-4 border-0"
     body-class="p-0"
   >
