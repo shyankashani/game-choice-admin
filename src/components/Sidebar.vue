@@ -1,12 +1,7 @@
 <template>
     <div class="container-fluid sticky-top">
-      <div class="row bg-warning text-dark pt-2 pb-2">
-        <div class="col">
-          VictorySquare
-        </div>
-      </div>
-      <div class="row pt-4">
-        <div class="col pb-3 pt-3 border-top border-bottom">
+      <div class="row">
+        <div class="col pb-3 pt-3">
           Filter
         </div>
       </div>

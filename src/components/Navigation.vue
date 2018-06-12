@@ -1,5 +1,5 @@
 <template>
-  <nav class="navbar text-light bg-warning fixed-top rounded m-3">
+  <nav class="navbar text-light bg-warning fixed-top rounded mt-4 mr-5 ml-5">
     <a class="navbar-brand font-weight-bold text-dark">
       VictorySquare
     </a>

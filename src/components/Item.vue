@@ -7,7 +7,7 @@
       class="row"
       v-b-modal="`id${item.id}`"
     >
-      <div class="col col-2 bg-light pt-3 pb-3 border-bottom border-left pl-3">
+      <div class="col col-4 bg-light pt-3 pb-3 border-bottom border-left pl-3">
         <div class="rounded border image-wrapper-small">
           <img class="image" :src="item.game.image"/>
         </div>

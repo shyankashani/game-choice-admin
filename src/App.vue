@@ -1,11 +1,12 @@
 <template>
   <div id="app" class="text-secondary">
-    <div class="container-fluid">
+    <navigation />
+    <div class="container-fluid mt-5 pt-5">
       <div class="row">
-        <div class="col col-2 pr-0 pl-0">
+        <div class="col col-2 pl-5 pr-0">
           <sidebar :updateQuery="this.updateQuery" />
         </div>
-        <div class="col col-10 pl-0 pr-0">
+        <div class="col col-10 pl-5 pr-5">
           <container :inventory="filteredInventory" :colors="colors" :categories="categories" />
         </div>
       </div>
