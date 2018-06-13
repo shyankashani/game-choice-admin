@@ -4,20 +4,20 @@
       :selectedCategoryImage="this.selectedCategoryImage"
     />
     <div
-      class="row"
+      class="row border-bottom p-3 d-flex align-items-center"
       v-b-modal="`id${item.id}`"
     >
-      <div class="col col-2 bg-light pt-3 pb-3 border-bottom border-left pl-3">
+      <div class="col col-2">
         <div class="rounded border image-wrapper-small">
           <img class="image" :src="item.game.image"/>
         </div>
       </div>
 
-      <span class="col col-2 bg-light pt-3 pb-3 border-bottom d-flex align-items-center">
+      <span class="col col-2">
         {{ item.game.name }}
       </span>
 
-      <div class="col col-2 bg-light pt-3 pb-3 border-bottom d-flex align-items-center">
+      <div class="col col-2">
         <input type="text"
           class="form-control form-control-sm"
           placeholder="Location"
@@ -27,7 +27,7 @@
         {{ item.location }}
       </div>
 
-      <div class="col col-2 bg-light pt-3 pb-3 border-bottom d-flex align-items-center">
+      <div class="col col-2">
         <select
           class="form-control form-control-sm h-100"
           v-model="item.color.id"
@@ -43,13 +43,13 @@
           > {{ color.name }} </option>
         </select>
         <div
-          class="badge badge-pill pt-2 pb-2 pl-3 pr-3 text-light"
+          class="badge badge-pill py-2 px-3 text-light"
           :style="{ background: item.color.hex }">
           {{ item.color.name }}
         </div>
       </div>
 
-      <div class="col col-2 bg-light pt-3 pb-3 border-bottom d-flex align-items-center">
+      <div class="col col-2">
         <select
           class="form-control form-control-sm h-100"
           v-model="item.category.id"
@@ -62,7 +62,7 @@
           {{ item.category.name }}
       </div>
 
-      <span class="col col-2 bg-light pt-3 pb-3 border-bottom border-right d-flex align-items-center">
+      <span class="col col-2 text-centered">
         <fa :icon="faEdit" />
       </span>
 

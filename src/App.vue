@@ -1,14 +1,10 @@
 <template>
   <div id="app" class="text-secondary">
     <navigation />
-    <div class="container-fluid mt-5 pt-5">
+    <div class="container-fluid mt-5 pt-5 px-5">
       <div class="row">
-        <div class="col col-2 pl-5 pr-0">
-          <sidebar :updateQuery="this.updateQuery" />
-        </div>
-        <div class="col col-10 pl-5 pr-5">
-          <container :inventory="filteredInventory" :colors="colors" :categories="categories" />
-        </div>
+        <sidebar :updateQuery="this.updateQuery" />
+        <container :inventory="filteredInventory" :colors="colors" :categories="categories" />
       </div>
     </div>
   </div>
