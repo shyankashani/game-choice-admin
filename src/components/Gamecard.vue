@@ -15,10 +15,16 @@
         </div>
         <div class="col col-8">
           <div class="container">
-            <div class="row font-weight-bold">
-              <div class="col text-primary">
+            <div class="row font-weight-bold mb-2">
+              <div class="col-auto pr-0 text-primary">
                 <fa :icon="faMapMarkerAlt" />
                 {{ item.location }}
+              </div>
+              <div class="col-auto d-flex pr-0">
+                <color :item="item" />
+              </div>
+              <div class="col-auto pr-0">
+                <category :item="item" />
               </div>
             </div>
             <div class="row">
@@ -66,38 +72,6 @@
                 </div>
               </div>
             </div>
-            <div class="row pt-4">
-              <div class="col col-6">
-                <div class="progress" style="height: 30px">
-                  <div
-                    :class="`progress-bar ${bggDifficulty.className}`"
-                    role="progressbar"
-                    :style="{width: bggDifficulty.width}"
-                    :aria-valuenow="bggDifficulty.absolute"
-                    aria-valuemin="0"
-                    aria-valuemax="5"
-                  > {{ bggDifficulty.width }} </div>
-                </div>
-                <div class="text-center pt-2">
-                  Difficulty
-                </div>
-              </div>
-              <div class="col col-6">
-                <div class="progress" style="height: 30px">
-                  <div
-                    :class="`progress-bar ${bggRating.className}`"
-                    role="progressbar"
-                    :style="{width: bggRating.width}"
-                    :aria-valuenow="bggRating.absolute"
-                    aria-valuemin="0"
-                    aria-valuemax="5"
-                  > {{ bggRating.width }} </div>
-                </div>
-                <div class="text-center pt-2">
-                  Rating
-                </div>
-              </div>
-            </div>
           </div>
         </div>
       </div>
@@ -111,10 +85,13 @@
   import fa from '@fortawesome/vue-fontawesome';
   import { faUser, faClock, faChild, faMapMarkerAlt } from '@fortawesome/fontawesome-free-solid';
 
+  import Category from './Category';
+  import Color from './Color';
+
   export default {
     name: 'gamecard',
     props: ['item', 'selectedColor', 'selectedCategory', 'selectedCategoryImage'],
-    components: { fa },
+    components: { Category, Color, fa },
     data: function () {
       return {
         isShowingDescription: false

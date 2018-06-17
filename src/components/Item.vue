@@ -42,11 +42,7 @@
             :style="{ color: color.hex }"
           > {{ color.name }} </option>
         </select>
-        <div
-          class="badge badge-pill py-2 px-3 text-light"
-          :style="{ background: item.color.hex }">
-          {{ item.color.name }}
-        </div>
+        <color :item="item"/>
       </div>
 
       <div class="col col-2">
@@ -58,8 +54,7 @@
             {{ category.name }}
           </option>
         </select>
-          <img class="img w-25" :src="selectedCategoryImage" />
-          {{ item.category.name }}
+        <category :item="item" />
       </div>
 
       <span class="col col-2 text-centered">
@@ -85,11 +80,13 @@
   import { faEdit } from '@fortawesome/fontawesome-free-solid';
 
   import Gamecard from './Gamecard';
+  import Category from './Category';
+  import Color from './Color';
 
   export default {
     name: 'Item',
     props: ['item', 'colors', 'categories'],
-    components: { Gamecard, fa },
+    components: { Gamecard, Category, Color, fa },
     data: function () {
       return {
         isManagingInventory: false,
@@ -108,13 +105,6 @@
         return this.item.category_id
           ? _.find(this.categories, { id: this.item.category_id })
           : {}
-      },
-      selectedCategoryImage: function () {
-        const categoryName = this.item.category.name;
-        const imageName = _.chain(categoryName).lowerCase().split(' ').join('');
-        return _.size(this.item.category)
-          ? require(`../assets/${imageName}.png`)
-          : require('../assets/default.png')
       },
       status: function () {
         return this.isUpdatingInventory
@@ -172,5 +162,10 @@
     flex-shrink: 0;
     max-width: 180%;
     max-height: 180%;
+  }
+
+  .row:hover {
+    background-color: whitesmoke;
+    cursor: pointer;
   }
 </style>
