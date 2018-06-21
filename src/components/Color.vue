@@ -1,7 +1,7 @@
 <template>
-  <span :class="`badge badge-${badgeColor} align-self-center`">
+  <div :class="`badge border border-${badgeColor} badge-${badgeColor} py-1`">
     {{ item.color.name }}
-  </span>
+  </div>
 </template>
 
 <script>
@@ -20,9 +20,5 @@
   }
 </script>
 
-<style>
-.badge {
-  font-size: 12px !important;
-  padding: 5px 7px;
-}
+<style scoped>
 </style>

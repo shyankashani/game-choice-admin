@@ -24,7 +24,7 @@
           v-model="item.location"
           v-if="isManagingInventory"
         />
-        {{ item.location }}
+        <location :item="item" />
       </div>
 
       <div class="col col-2">
@@ -42,7 +42,7 @@
             :style="{ color: color.hex }"
           > {{ color.name }} </option>
         </select>
-        <color :item="item"/>
+        <color :item="item" />
       </div>
 
       <div class="col col-2">
@@ -80,13 +80,14 @@
   import { faEdit } from '@fortawesome/fontawesome-free-solid';
 
   import Gamecard from './Gamecard';
+  import Location from './Location';
   import Category from './Category';
   import Color from './Color';
 
   export default {
     name: 'Item',
     props: ['item', 'colors', 'categories'],
-    components: { Gamecard, Category, Color, fa },
+    components: { Gamecard, Location, Category, Color, fa },
     data: function () {
       return {
         isManagingInventory: false,

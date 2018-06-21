@@ -16,16 +16,7 @@
         <div class="col col-8">
           <div class="container">
             <div class="row font-weight-bold mb-2">
-              <div class="col-auto pr-0 text-primary">
-                <fa :icon="faMapMarkerAlt" />
-                {{ item.location }}
-              </div>
-              <div class="col-auto d-flex pr-0">
-                <color :item="item" />
-              </div>
-              <div class="col-auto pr-0">
-                <category :item="item" />
-              </div>
+              <badges :item="item" />
             </div>
             <div class="row">
               <div class="col h1 text-dark">
@@ -83,15 +74,14 @@
   import he from 'he';
   import _ from 'lodash';
   import fa from '@fortawesome/vue-fontawesome';
-  import { faUser, faClock, faChild, faMapMarkerAlt } from '@fortawesome/fontawesome-free-solid';
+  import { faUser, faClock, faChild } from '@fortawesome/fontawesome-free-solid';
 
-  import Category from './Category';
-  import Color from './Color';
+  import Badges from './Badges';
 
   export default {
     name: 'gamecard',
     props: ['item', 'selectedColor', 'selectedCategory', 'selectedCategoryImage'],
-    components: { Category, Color, fa },
+    components: { Badges, fa },
     data: function () {
       return {
         isShowingDescription: false
@@ -154,8 +144,7 @@
       },
       faUser: () => faUser,
       faClock: () => faClock,
-      faChild: () => faChild,
-      faMapMarkerAlt: () => faMapMarkerAlt,
+      faChild: () => faChild
     },
     methods: {
       toggleDescription: function () {

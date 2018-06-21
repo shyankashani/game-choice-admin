@@ -1,12 +1,12 @@
 <template>
-  <div class="badge bg-light">
-    <div class="d-flex">
-      <div class="image-wrapper-teensy mr-1 align-self-center">
-        <img class="image" :src="selectedCategoryImage" />
-      </div>
-      <div class="align-self-center">
-        {{ item.category.name }}
-      </div>
+  <div class="badge badge-light border border-secondary py-1 align-items-baseline">
+
+    <div class="image-wrapper-teensy mr-1 d-inline-flex align-bottom">
+      <img class="image" :src="selectedCategoryImage" />
+    </div>
+
+    <div class="d-inline-flex">
+      {{ item.category.name }}
     </div>
   </div>
 </template>
@@ -28,11 +28,7 @@
 </script>
 
 <style scoped>
-.badge * {
-  font-size: 12px !important;
-}
 .image-wrapper-teensy {
-  display: flex;
   height: 14px;
   width: 14px;
   justify-content: center;
@@ -41,7 +37,7 @@
 }
 .image {
   flex-shrink: 0;
-  max-width: 140%;
-  max-height: 140%;
+  max-width: 130%;
+  max-height: 130%;
 }
 </style>
