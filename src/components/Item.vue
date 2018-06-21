@@ -5,31 +5,39 @@
     />
     <div
       class="row border-bottom p-3 d-flex align-items-center"
-      v-b-modal="`id${item.id}`"
+      v-b-modal="`modal-id${item.id}`"
     >
+
       <div class="col col-2">
         <div class="rounded border image-wrapper-small">
-          <img class="image" :src="item.game.image"/>
+          <img class="image-small" :src="item.game.image"/>
         </div>
       </div>
 
-      <span class="col col-2">
+      <div class="col col-2">
         {{ item.game.name }}
-      </span>
+      </div>
 
       <div class="col col-2">
-        <input type="text"
-          class="form-control form-control-sm"
-          placeholder="Location"
-          v-model="item.location"
-          v-if="isManagingInventory"
-        />
-        <location :item="item" />
+        <div v-if="isManagingInventory" class="input-group w-50">
+          <div class="input-group-prepend">
+            <span class="input-group-text pr-1 py-0 bg-white border-primary" :id="`location-id${item.id}`">
+              <fa :icon="faMapMarkerAlt" />
+            </span>
+          </div>
+          <input type="text"
+            class="form-control form-control-sm py-1 pl-0 border-left-0 border-primary"
+            placeholder="Location"
+            :aria-describedby="`location-id${item.id}`"
+            v-model="item.location"
+          >
+        </div>
+        <location v-else :item="item" />
       </div>
 
       <div class="col col-2">
         <select
-          class="form-control form-control-sm h-100"
+          class="custom-select w-50 p-1 h-100"
           v-model="item.color.id"
           v-if="isManagingInventory"
           :style="{
@@ -42,31 +50,43 @@
             :style="{ color: color.hex }"
           > {{ color.name }} </option>
         </select>
-        <color :item="item" />
+        <color v-else :item="item" />
       </div>
 
       <div class="col col-2">
-        <select
-          class="form-control form-control-sm h-100"
-          v-model="item.category.id"
-          v-if="isManagingInventory"
-        ><option v-for="category in categories" :value="category.id">
-            {{ category.name }}
-          </option>
-        </select>
-        <category :item="item" />
+
+
+        <div v-if="isManagingInventory" class="input-group w-75">
+          <div class="input-group-prepend">
+            <label class="input-group-text pr-1 bg-white border-secondary" :for="`category-id${item.id}`">
+              <div class="image-wrapper-teensy mr-1 d-inline-flex align-bottom">
+                <img class="image" :src="selectedCategoryImage" />
+              </div>
+            </label>
+          </div>
+          <select
+            class="custom-select px-0 py-1 border-secondary border-left-0 h-100"
+            :aria-describedby="`category-id${item.id}`"
+            v-model="item.category.id"
+          ><option v-for="category in categories" :value="category.id">
+              {{ category.name }}
+            </option>
+          </select>
+        </div>
+        <category v-else :item="item" />
       </div>
 
-      <span class="col col-2 text-centered">
-        <fa :icon="faEdit" />
-      </span>
-
-      <div class="col col-1">
+      <div class="col col-2 text-centered">
         <button type="submit"
           class="btn btn-outline-secondary btn-sm h-100"
           v-on:click="updateInventory"
           v-if="isManagingInventory"
         > Save </button>
+
+        <fa
+          v-else
+          :icon="faEdit"
+        />
       </div>
     </div>
   </div>
@@ -77,7 +97,7 @@
   import _ from 'lodash';
   import { API_HOST } from '../config';
   import fa from '@fortawesome/vue-fontawesome';
-  import { faEdit } from '@fortawesome/fontawesome-free-solid';
+  import { faEdit, faMapMarkerAlt } from '@fortawesome/fontawesome-free-solid';
 
   import Gamecard from './Gamecard';
   import Location from './Location';
@@ -97,6 +117,7 @@
     },
     computed: {
       faEdit: () => faEdit,
+      faMapMarkerAlt: () => faMapMarkerAlt,
       selectedColor: function () {
         return this.item.color_id
           ? _.find(this.colors, { id: this.item.color_id})
@@ -107,6 +128,13 @@
           ? _.find(this.categories, { id: this.item.category_id })
           : {}
       },
+      selectedCategoryImage: function () {
+        const categoryName = this.item.category.name;
+        const imageName = _.chain(categoryName).lowerCase().split(' ').join('');
+        return _.size(this.item.category)
+          ? require(`../assets/${imageName}.png`)
+          : require('../assets/default.png')
+      },
       status: function () {
         return this.isUpdatingInventory
           ? { symbol: '&#9678;', color: '#f0ad4e' }
@@ -116,6 +144,9 @@
       }
     },
     methods: {
+      manageInventory: function () {
+        this.isManagingInventory = true;
+      },
       updateInventory: function () {
         this.isUpdatingInventory = true;
         axios.post(`${API_HOST}/inventory?${this.generateInventoryQuery()}`)
@@ -159,7 +190,21 @@
     overflow: hidden;
   }
 
-  .image {
+  .image-wrapper-teensy {
+    height: 14px;
+    width: 14px;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+  }
+
+  .image-teensy {
+    flex-shrink: 0;
+    max-width: 130%;
+    max-height: 130%;
+  }
+
+  .image-small {
     flex-shrink: 0;
     max-width: 180%;
     max-height: 180%;

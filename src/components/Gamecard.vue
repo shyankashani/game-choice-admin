@@ -1,6 +1,6 @@
 <template>
   <b-modal
-    :id="`id${item.id}`"
+    :id="`modal-id${item.id}`"
     size="lg"
     no-fade
     hide-footer
