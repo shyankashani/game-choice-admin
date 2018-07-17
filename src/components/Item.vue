@@ -5,7 +5,7 @@
     />
     <div
       class="row border-bottom p-3 d-flex align-items-center"
-      v-b-modal="`modal-id${item.id}`"
+      v-b-modal="vBModal"
     >
 
       <div class="col col-2">
@@ -78,15 +78,18 @@
 
       <div class="col col-2 text-centered">
         <button type="submit"
-          class="btn btn-outline-secondary btn-sm h-100"
-          v-on:click="updateInventory"
+          class="btn btn-link btn-sm h-100 py-0"
+          v-on:click="stopManagingInventory"
           v-if="isManagingInventory"
-        > Save </button>
+        > Cancel </button>
 
-        <fa
+        <button type="submit"
+          class="btn btn-link btn-sm h-100 py-0"
+          v-on:click="manageInventory"
+          v-on:mouseenter="makeModalUnavailable"
+          v-on:mouseleave="makeModalAvailable"
           v-else
-          :icon="faEdit"
-        />
+        > Edit </button>
       </div>
     </div>
   </div>
@@ -112,12 +115,18 @@
       return {
         isManagingInventory: false,
         isUpdatingInventory: false,
-        isUpdateSuccessful: true
+        isUpdateSuccessful: true,
+        isModalAvailable: true
       }
     },
     computed: {
       faEdit: () => faEdit,
       faMapMarkerAlt: () => faMapMarkerAlt,
+      vBModal: function() {
+        return this.isModalAvailable
+        ? `modal-id${this.item.id}`
+        : '';
+      },
       selectedColor: function () {
         return this.item.color_id
           ? _.find(this.colors, { id: this.item.color_id})
@@ -126,26 +135,37 @@
       selectedCategory: function () {
         return this.item.category_id
           ? _.find(this.categories, { id: this.item.category_id })
-          : {}
+          : {};
       },
       selectedCategoryImage: function () {
         const categoryName = this.item.category.name;
         const imageName = _.chain(categoryName).lowerCase().split(' ').join('');
         return _.size(this.item.category)
           ? require(`../assets/${imageName}.png`)
-          : require('../assets/default.png')
+          : require('../assets/default.png');
       },
       status: function () {
         return this.isUpdatingInventory
           ? { symbol: '&#9678;', color: '#f0ad4e' }
           : this.isUpdateSuccessful
           ? { symbol: '&#9673;', color: '#5cb85c' }
-          : { symbol: '&#10060;', color: '#d9534f' }
+          : { symbol: '&#10060;', color: '#d9534f' };
       }
     },
     methods: {
+      makeModalAvailable: function() {
+        this.isModalAvailable = true;
+        console.log('hello')
+      },
+      makeModalUnavailable: function() {
+        this.isModalAvailable = false;
+        console.log('goodbye')
+      },
       manageInventory: function () {
         this.isManagingInventory = true;
+      },
+      stopManagingInventory: function () {
+        this.isManagingInventory = false;
       },
       updateInventory: function () {
         this.isUpdatingInventory = true;

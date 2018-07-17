@@ -3,7 +3,7 @@
     <navigation />
     <div class="container-fluid mt-5 pt-5 px-5">
       <div class="row">
-        <sidebar :updateQuery="this.updateQuery" />
+        <sidebar :updateQuery="this.updateQuery" :colors="colors" :categories="categories" />
         <container :inventory="filteredInventory" :colors="colors" :categories="categories" />
       </div>
     </div>

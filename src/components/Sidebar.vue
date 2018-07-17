@@ -32,6 +32,7 @@
             />
           </div>
         </div>
+
         <div class="row mr-5">
           <div class="col mr-5">
             <div class="border-bottom pb-2 mb-3">
@@ -39,35 +40,41 @@
             </div>
           </div>
           <div class="col col-12">
-            <div class="form-check">
-              <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
-              <label class="form-check-label" for="defaultCheck1">
-                Go for it
-              </label>
-            </div>
-            <div class="form-check">
-              <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
-              <label class="form-check-label" for="defaultCheck1">
-                Warning
-              </label>
-            </div>
-            <div class="form-check">
-              <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
-              <label class="form-check-label" for="defaultCheck1">
-                Alert
-              </label>
-            </div>
-            </div>
+            <checkbox
+              v-for="color in colors"
+              :choice="color"
+              :key="`checkbox${color.id}`"
+            />
           </div>
         </div>
+
+        <div class="row mr-5 mt-5">
+          <div class="col mr-5">
+            <div class="border-bottom pb-2 mb-3">
+              Categories
+            </div>
+          </div>
+          <div class="col col-12">
+            <checkbox
+              v-for="category in categories"
+              :choice="category"
+              :key="`checkbox${category.id}`"
+            />
+          </div>
+        </div>
+
       </div>
     </div>
+  </div>
 </template>
 
 <script>
+  import Checkbox from './Checkbox';
+
   export default {
     name: 'sidebar',
-    props: ['updateQuery'],
+    props: ['updateQuery', 'colors', 'categories'],
+    components: { Checkbox },
     data: function () {
       return {
         query: ''
