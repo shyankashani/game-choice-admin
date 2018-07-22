@@ -3,8 +3,18 @@
     <navigation />
     <div class="container-fluid mt-5 pt-5 px-5">
       <div class="row">
-        <sidebar :updateQuery="this.updateQuery" :colors="colors" :categories="categories" />
-        <container :inventory="filteredInventory" :colors="colors" :categories="categories" />
+        <sidebar
+          :updateQuery="this.updateQuery"
+          :toggleColorId="this.toggleColorId"
+          :colorIds="colorIds"
+          :colors="colors"
+          :categories="categories"
+        />
+        <container
+          :inventory="filteredInventory"
+          :colors="colors"
+          :categories="categories"
+        />
       </div>
     </div>
   </div>
@@ -32,19 +42,43 @@ export default {
       inventory: [],
       colors: [],
       categories: [],
+      colorIds: [],
+      categoryIds: [],
       isLoadingInventory: false
     }
   },
   created: function () {
     this.getColors();
     this.getCategories();
-    this.getInventory();
+    this.getInventory()
   },
   computed: {
     filteredInventory: function () {
-      return this.query.length
-        ? _.filter(this.inventory, item => _.includes(item.game.name, this.query))
-        : this.inventory
+      let inventory = this.inventory;
+
+      if (this.query) {
+        inventory = _.filter(
+          inventory,
+          item => _.includes(
+            _.lowerCase(item.game.name),
+            _.lowerCase(this.query)
+          )
+        );
+      }
+
+      if (this.colorIds.length) {
+        inventory = _.filter(
+          inventory,
+          item => _.includes(this.colorIds, item.color.id));
+      }
+
+      if (this.categoryIds.length) {
+        inventory = _.filter(
+          inventory,
+          item => _.includes(this.categoryIds, item.category.id));
+      }
+
+      return inventory;
     }
   },
   methods: {
@@ -67,6 +101,14 @@ export default {
     },
     updateQuery: function (query) {
       this.query = query;
+    },
+    toggleColorId: function (colorId) {
+      console.log(colorId)
+      if (_.includes(this.colorIds, colorId)) {
+        this.colorIds = _.filter(this.colorIds, id => id !== colorId);
+      } else {
+        this.colorIds.push(colorId);
+      }
     }
   }
 }

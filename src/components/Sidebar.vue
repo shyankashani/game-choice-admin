@@ -42,6 +42,8 @@
           <div class="col col-12">
             <checkbox
               v-for="color in colors"
+              :toggleColorId="toggleColorId"
+              :colorIds="colorIds"
               :choice="color"
               :key="`checkbox${color.id}`"
             />
@@ -57,6 +59,7 @@
           <div class="col col-12">
             <checkbox
               v-for="category in categories"
+              :toggleColorId="toggleColorId"
               :choice="category"
               :key="`checkbox${category.id}`"
             />
@@ -73,7 +76,7 @@
 
   export default {
     name: 'sidebar',
-    props: ['updateQuery', 'colors', 'categories'],
+    props: ['updateQuery', 'colors', 'categories', 'toggleColorId', 'colorIds'],
     components: { Checkbox },
     data: function () {
       return {
@@ -87,8 +90,6 @@
 ::placeholder {
   color: silver;
 }
-
-
 
 .text-input:hover,
 .text-input:active {

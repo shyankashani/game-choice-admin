@@ -22,7 +22,7 @@
         return _.size(this.item.category)
           ? require(`../assets/${imageName}.png`)
           : require('../assets/default.png')
-      },
+      }
     }
   }
 </script>
