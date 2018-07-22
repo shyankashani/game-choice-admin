@@ -6,7 +6,7 @@
   >
     <fa
       v-if="isSelected"
-      class="border border-secondary text-primary p-1"
+      :class="`border border-secondary text-${badgeColor} p-1`"
       :icon="faSquareFull"
     />
     <fa
@@ -29,6 +29,13 @@
     props: ['choice', 'toggleColorId', 'colorIds'],
     components: { fa },
     computed: {
+      badgeColor: function() {
+        return this.choice.name === 'Go for it'
+          ? 'success'
+          : this.choice.name === 'Use caution'
+          ? 'warning'
+          : 'danger'
+      },
       isSelected: function () {
         return _.includes(this.colorIds, this.choice.id)
       },

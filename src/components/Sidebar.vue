@@ -59,7 +59,8 @@
           <div class="col col-12">
             <checkbox
               v-for="category in categories"
-              :toggleColorId="toggleColorId"
+              :toggleCategoryId="toggleCategoryId"
+              :categoryIds="categoryIds"
               :choice="category"
               :key="`checkbox${category.id}`"
             />
@@ -76,7 +77,15 @@
 
   export default {
     name: 'sidebar',
-    props: ['updateQuery', 'colors', 'categories', 'toggleColorId', 'colorIds'],
+    props: [
+      'updateQuery',
+      'colors',
+      'categories',
+      'toggleColorId',
+      'toggleCategoryId',
+      'colorIds',
+      'categoryIds'
+    ],
     components: { Checkbox },
     data: function () {
       return {

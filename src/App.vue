@@ -6,7 +6,9 @@
         <sidebar
           :updateQuery="this.updateQuery"
           :toggleColorId="this.toggleColorId"
+          :toggleCategoryId="this.toggleCategoryId"
           :colorIds="colorIds"
+          :categoryIds="categoryIds"
           :colors="colors"
           :categories="categories"
         />
@@ -103,11 +105,17 @@ export default {
       this.query = query;
     },
     toggleColorId: function (colorId) {
-      console.log(colorId)
       if (_.includes(this.colorIds, colorId)) {
         this.colorIds = _.filter(this.colorIds, id => id !== colorId);
       } else {
         this.colorIds.push(colorId);
+      }
+    },
+    toggleCategoryId: function (categoryId) {
+      if (_.includes(this.categoryIds, categoryId)) {
+        this.categoryIds = _.filter(this.categoryIds, id => id !== categoryId);
+      } else {
+        this.categoryIds.push(categoryId);
       }
     }
   }
