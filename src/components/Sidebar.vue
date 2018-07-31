@@ -42,7 +42,7 @@
           <div class="col col-12">
             <checkbox
               v-for="color in colors"
-              :toggleColorId="toggleColorId"
+              :toggleCheckbox="toggleCheckbox"
               :colorIds="colorIds"
               :choice="color"
               :key="`checkbox${color.id}`"
@@ -59,7 +59,7 @@
           <div class="col col-12">
             <checkbox
               v-for="category in categories"
-              :toggleCategoryId="toggleCategoryId"
+              :toggleCheckbox="toggleCheckbox"
               :categoryIds="categoryIds"
               :choice="category"
               :key="`checkbox${category.id}`"
@@ -81,8 +81,7 @@
       'updateQuery',
       'colors',
       'categories',
-      'toggleColorId',
-      'toggleCategoryId',
+      'toggleCheckbox',
       'colorIds',
       'categoryIds'
     ],

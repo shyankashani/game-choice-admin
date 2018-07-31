@@ -5,8 +5,7 @@
       <div class="row">
         <sidebar
           :updateQuery="this.updateQuery"
-          :toggleColorId="this.toggleColorId"
-          :toggleCategoryId="this.toggleCategoryId"
+          :toggleCheckbox="this.toggleCheckbox"
           :colorIds="colorIds"
           :categoryIds="categoryIds"
           :colors="colors"
@@ -104,14 +103,22 @@ export default {
     updateQuery: function (query) {
       this.query = query;
     },
-    toggleColorId: function (colorId) {
+    toggleCheckbox: function (id, choiceType) {
+      if (choiceType === 'color') {
+        this._toggleColorId(id);
+      }
+      if (choiceType === 'category') {
+        this._toggleCategoryId(id);
+      }
+    },
+    _toggleColorId: function (colorId) {
       if (_.includes(this.colorIds, colorId)) {
         this.colorIds = _.filter(this.colorIds, id => id !== colorId);
       } else {
         this.colorIds.push(colorId);
       }
     },
-    toggleCategoryId: function (categoryId) {
+    _toggleCategoryId: function (categoryId) {
       if (_.includes(this.categoryIds, categoryId)) {
         this.categoryIds = _.filter(this.categoryIds, id => id !== categoryId);
       } else {

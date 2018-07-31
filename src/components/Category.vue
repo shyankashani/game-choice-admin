@@ -28,16 +28,16 @@
 </script>
 
 <style scoped>
-.image-wrapper-teensy {
-  height: 14px;
-  width: 14px;
-  justify-content: center;
-  align-items: center;
-  overflow: hidden;
-}
-.image {
-  flex-shrink: 0;
-  max-width: 130%;
-  max-height: 130%;
-}
+  .image-wrapper-teensy {
+    height: 14px;
+    width: 14px;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+  }
+  .image {
+    flex-shrink: 0;
+    max-width: 130%;
+    max-height: 130%;
+  }
 </style>
