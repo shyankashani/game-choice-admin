@@ -1,43 +1,40 @@
 <template>
   <div class="col col-10 pl-0">
-    <div class="
-      container-fluid
-      full-height
-      border
-      rounded
-      bg-light
-      shadow-sm">
+    <div class="container-fluid full-height border rounded bg-light shadow-sm">
+<!--
+      <div class="row p-3 sticky-top border-bottom bg-light font-weight-bold">
+        <div class="col col-11 px-0">
+          <div class="row d-flex">
+            <div class="col col-2 p-0">
+            </div>
 
-      <div class="row
-        p-3
-        sticky-top
-        border-bottom
-        bg-light
-        font-weight-bold">
+            <div class="col col-2 px-0">
+              Name
+            </div>
 
-        <div class="col col-2">
+            <div class="col col-2 p-0">
+              Location
+            </div>
+
+            <div class="col col-2 p-0">
+              Difficulty
+            </div>
+
+            <div class="col col-2 p-0">
+              Category
+            </div>
+
+            <div class="col col-2 p-0">
+            </div>
+          </div>
+        </div>
+        <div class="col col-1 px-0">
+
         </div>
 
-        <div class="col col-2">
-          Name
-        </div>
 
-        <div class="col col-2">
-          Location
-        </div>
+      </div> -->
 
-        <div class="col col-2">
-          Difficulty
-        </div>
-
-        <div class="col col-2">
-          Category
-        </div>
-
-        <div class="col col-2">
-        </div>
-
-      </div>
       <item
         v-for="item in inventory"
         :item="item"

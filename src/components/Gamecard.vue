@@ -16,7 +16,7 @@
         <div class="col col-8">
           <div class="container">
             <div class="row font-weight-bold mb-2">
-              <badges :item="item" />
+              <badges :item="item" :colors="colors" :categories="categories" />
             </div>
             <div class="row">
               <div class="col h1 text-dark">
@@ -80,7 +80,14 @@
 
   export default {
     name: 'gamecard',
-    props: ['item', 'selectedColor', 'selectedCategory', 'selectedCategoryImage'],
+    props: [
+      'item',
+      'selectedColor',
+      'selectedCategory',
+      'selectedCategoryImage',
+      'colors',
+      'categories'
+    ],
     components: { Badges, fa },
     data: function () {
       return {

@@ -1,6 +1,6 @@
 <template>
-  <select v-if="isEditing"
-    class="custom-select w-100 p-1 h-100"
+  <select
+    class="custom-select w-100 h-100 py-teensy"
     v-model="item.color.id"
     :style="{
       border: `1px solid ${item.color.hex}`,
@@ -8,6 +8,7 @@
     }"
   >
     <option
+     class="py-teensy"
       v-for="color in colors"
       :value="color.id"
       :style="{ color: color.hex }"
@@ -15,18 +16,14 @@
       {{ color.name }}
     </option>
   </select>
-
-  <div v-else :class="`badge border border-${badgeColor} badge-${badgeColor} py-1`">
-    {{ item.color.name }}
-  </div>
 </template>
 
 <script>
   export default {
-    name: 'color',
+    name: 'edit-color',
     props: [
       'item',
-      'isEditing'
+      'colors'
     ],
     computed: {
       badgeColor: function() {
@@ -39,3 +36,10 @@
     }
   }
 </script>
+
+<style scoped>
+ .py-teensy {
+   padding-top: 1px;
+   padding-bottom: 1px;
+ }
+</style>

@@ -1,96 +1,43 @@
 <template>
   <div>
-    <gamecard :item="item" :key="`gamecard${item.id}`"
+    <gamecard
+      :item="item"
+      :key="`gamecard${item.id}`"
       :selectedCategoryImage="this.selectedCategoryImage"
+      :colors="colors"
+      :categories="categories"
     />
-    <div
-      class="row border-bottom p-3 d-flex align-items-center"
-      v-b-modal="vBModal"
-    >
 
-      <div class="col col-2">
+    <div class="row border-bottom py-0 d-flex align-items-center">
+
+      <div class="col col-2 p-0 pl-4" v-b-modal="">
         <div class="rounded border image-wrapper-small">
           <img class="image-small" :src="item.game.image"/>
         </div>
       </div>
 
-      <div class="col col-2">
+      <div class="col col-2 py-5" v-b-modal="`modal-id${item.id}`">
         {{ item.game.name }}
       </div>
 
-      <div class="col col-2">
-        <div v-if="isManagingInventory" class="input-group w-50">
-          <div class="input-group-prepend">
-            <span class="input-group-text pr-1 py-0 bg-white border-primary" :id="`location-id${item.id}`">
-              <fa :icon="faMapMarkerAlt" />
-            </span>
-          </div>
-          <input type="text"
-            class="form-control form-control-sm py-1 pl-0 border-left-0 border-primary"
-            placeholder="Location"
-            :aria-describedby="`location-id${item.id}`"
-            v-model="item.location"
-          >
-        </div>
-        <location v-else :item="item" />
+      <div class="col col-2 py-5" v-b-modal="`modal-id${item.id}`">
+        <location :item="item" />
       </div>
 
-      <div class="col col-2">
-        <select
-          class="custom-select w-50 p-1 h-100"
-          v-model="item.color.id"
-          v-if="isManagingInventory"
-          :style="{
-            border: `1px solid ${item.color.hex}`,
-            color: item.color.hex
-          }">
-          <option
-            v-for="color in colors"
-            :value="color.id"
-            :style="{ color: color.hex }"
-          > {{ color.name }} </option>
-        </select>
-        <color v-else :item="item" />
+      <div class="col col-2 py-5" v-b-modal="`modal-id${item.id}`">
+        <color :item="item" />
       </div>
 
-      <div class="col col-2">
-
-
-        <div v-if="isManagingInventory" class="input-group w-75">
-          <div class="input-group-prepend">
-            <label class="input-group-text pr-1 bg-white border-secondary" :for="`category-id${item.id}`">
-              <div class="image-wrapper-teensy mr-1 d-inline-flex align-bottom">
-                <img class="image" :src="selectedCategoryImage" />
-              </div>
-            </label>
-          </div>
-          <select
-            class="custom-select px-0 py-1 border-secondary border-left-0 h-100"
-            :aria-describedby="`category-id${item.id}`"
-            v-model="item.category.id"
-          ><option v-for="category in categories" :value="category.id">
-              {{ category.name }}
-            </option>
-          </select>
-        </div>
-        <category v-else :item="item" />
+      <div class="col col-2 py-5" v-b-modal="`modal-id${item.id}`">
+        <category :item="item" />
       </div>
 
-      <div class="col col-2 text-centered">
-        <button type="submit"
-          class="btn btn-link btn-sm h-100 py-0"
-          v-on:click="stopManagingInventory"
-          v-if="isManagingInventory"
-        > Cancel </button>
+      <div class="col col-2 py-5 text-right">
 
-        <button type="submit"
-          class="btn btn-link btn-sm h-100 py-0"
-          v-on:click="manageInventory"
-          v-on:mouseenter="makeModalUnavailable"
-          v-on:mouseleave="makeModalAvailable"
-          v-else
-        > Edit </button>
+
+
       </div>
+
     </div>
   </div>
 </template>
@@ -109,8 +56,18 @@
 
   export default {
     name: 'Item',
-    props: ['item', 'colors', 'categories'],
-    components: { Gamecard, Location, Category, Color, fa },
+    props: [
+      'item',
+      'colors',
+      'categories'
+    ],
+    components: {
+      Gamecard,
+      Location,
+      Category,
+      Color,
+      fa
+    },
     data: function () {
       return {
         isManagingInventory: false,
@@ -122,11 +79,6 @@
     computed: {
       faEdit: () => faEdit,
       faMapMarkerAlt: () => faMapMarkerAlt,
-      vBModal: function() {
-        return this.isModalAvailable
-        ? `modal-id${this.item.id}`
-        : '';
-      },
       selectedColor: function () {
         return this.item.color_id
           ? _.find(this.colors, { id: this.item.color_id})
@@ -153,39 +105,11 @@
       }
     },
     methods: {
-      makeModalAvailable: function() {
-        this.isModalAvailable = true;
-        console.log('hello')
-      },
-      makeModalUnavailable: function() {
-        this.isModalAvailable = false;
-        console.log('goodbye')
-      },
       manageInventory: function () {
         this.isManagingInventory = true;
       },
       stopManagingInventory: function () {
         this.isManagingInventory = false;
-      },
-      updateInventory: function () {
-        this.isUpdatingInventory = true;
-        axios.post(`${API_HOST}/inventory?${this.generateInventoryQuery()}`)
-        .then(result => {
-          this.isUpdatingInventory = false;
-          this.isUpdateSuccessful = result.status === 200;
-        })
-      },
-      generateInventoryQuery: function() {
-        const i = this.item;
-        const queryString = [
-          `game_id=${i.game_id}`,
-          `location=${i.location}`,
-          `colorId=${i.color_id}`,
-          `categoryId=${i.category_id}`,
-          `staffPick=${i.staff_pick}`,
-          `notes=${i.notes}`
-        ].join(`&`);
-        return queryString;
       }
     }
   }

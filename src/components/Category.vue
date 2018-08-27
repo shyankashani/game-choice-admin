@@ -14,7 +14,9 @@
 <script>
   export default {
     name: 'category',
-    props: ['item'],
+    props: [
+      'item'
+    ],
     computed: {
       selectedCategoryImage: function () {
         const categoryName = this.item.category.name;
